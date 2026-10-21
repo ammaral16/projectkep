@@ -3,1195 +3,1195 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>E-Portfolio PPG Calon Guru - Universitas Negeri</title>
-    <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Kronik Sang Penjelajah: Misteri Artefak Waktu</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+        }
+        #hudContainer {
+            width: 900px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        #hud {
+            display: flex;
+            gap: 15px;
+        }
+        #hud div {
+            background: linear-gradient(135deg, rgba(0,0,0,0.7) 0%, rgba(30,30,50,0.8) 100%);
+            padding: 12px 20px;
+            border-radius: 10px;
+            border: 2px solid rgba(100,100,150,0.5);
+            backdrop-filter: blur(5px);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            color: white;
+            font-size: 16px;
+        }
+        #hud span {
+            font-weight: bold;
+            font-size: 20px;
+        }
+        #gameContainer {
+            position: relative;
+            width: 900px;
+            height: 650px;
+            background: #0f0f23;
+            border: 5px solid #4a4a6a;
+            border-radius: 15px;
+            box-shadow: 0 0 50px rgba(100, 100, 200, 0.4), inset 0 0 30px rgba(0,0,0,0.5);
+        }
+        #gameCanvas { 
+            display: block; 
+            border-radius: 10px;
+        }
+        #hud {
+            display: none;
+        }
+        #hudContainer {
+            display: flex;
+            gap: 15px;
+        }
+        #hudContainer.active {
+            display: flex;
+        }
+        #hudContainer div {
+            background: linear-gradient(135deg, rgba(0,0,0,0.7) 0%, rgba(30,30,50,0.8) 100%);
+            padding: 12px 20px;
+            border-radius: 10px;
+            border: 2px solid rgba(100,100,150,0.5);
+            backdrop-filter: blur(5px);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            color: white;
+            font-size: 16px;
+        }
+        #hudContainer span {
+            font-weight: bold;
+            font-size: 20px;
+        }
+        #titleScreen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, #0a0a1a 0%, #1a1a3a 30%, #2a2a4a 70%, #0a0a1a 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            border-radius: 10px;
+        }
+        #titleScreen.hidden { display: none; }
+        #gameTitle {
+            font-size: 48px;
+            color: #ffd700;
+            margin-bottom: 15px;
+            text-align: center;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.5), 0 0 40px rgba(255, 215, 0, 0.3);
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+        @keyframes glow {
+            from { text-shadow: 0 0 20px rgba(255, 215, 0, 0.5); }
+            to { text-shadow: 0 0 30px rgba(255, 215, 0, 0.8), 0 0 50px rgba(255, 215, 0, 0.5); }
+        }
+        #gameSubtitle {
+            font-size: 22px;
+            color: #a0a0c0;
+            margin-bottom: 50px;
+            text-shadow: 0 0 10px rgba(160, 160, 192, 0.5);
+        }
+        .menuButton {
+            background: linear-gradient(135deg, #3a3a5a 0%, #4a4a6a 100%);
+            color: white;
+            border: 3px solid #6a6a8a;
+            padding: 18px 50px;
+            margin: 12px;
+            cursor: pointer;
+            font-size: 20px;
+            min-width: 280px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+        .menuButton:hover { 
+            background: linear-gradient(135deg, #4a4a6a 0%, #5a5a7a 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(100,100,150,0.4);
+        }
+        #puzzleUI {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, #2a2a4a 0%, #1a1a3a 100%);
+            border: 4px solid #6a6a8a;
+            padding: 40px;
+            display: none;
+            width: 550px;
+            z-index: 50;
+            border-radius: 15px;
+            box-shadow: 0 0 30px rgba(100,100,150,0.5);
+        }
+        #puzzleUI.active { display: block; }
+        #puzzleQuestion {
+            color: #ffd700;
+            font-size: 22px;
+            margin-bottom: 25px;
+            text-align: center;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+        }
+        .puzzleOption {
+            background: linear-gradient(135deg, #3a3a5a 0%, #4a4a6a 100%);
+            color: white;
+            border: 2px solid #5a5a7a;
+            padding: 15px;
+            margin: 10px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 18px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        .puzzleOption:hover { 
+            background: linear-gradient(135deg, #4a4a6a 0%, #5a5a7a 100%);
+            transform: scale(1.02);
+            border-color: #7a7a9a;
+        }
+        #notification {
+            position: absolute;
+            top: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, rgba(50, 50, 80, 0.95) 0%, rgba(30, 30, 60, 0.95) 100%);
+            color: #ffd700;
+            padding: 18px 35px;
+            border: 3px solid #6a6a8a;
+            border-radius: 10px;
+            font-size: 18px;
+            display: none;
+            z-index: 60;
+            box-shadow: 0 0 20px rgba(100,100,150,0.5);
+        }
+        #notification.active { display: block; animation: slideDown 0.3s ease; }
+        @keyframes slideDown {
+            from { transform: translateX(-50%) translateY(-30px); opacity: 0; }
+            to { transform: translateX(-50%) translateY(0); opacity: 1; }
+        }
+        #cameraScreen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 10, 26, 0.98);
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 200;
+            padding: 40px;
+            border-radius: 10px;
+        }
+        #cameraScreen.active { display: flex; }
+        #video {
+            width: 520px;
+            height: 390px;
+            background: #000;
+            border: 5px solid #4a4a6a;
+            border-radius: 15px;
+            box-shadow: 0 0 30px rgba(100,100,150,0.5);
+        }
+        #captureButton {
+            background: linear-gradient(135deg, #3a3a5a 0%, #4a4a6a 100%);
+            color: white;
+            border: 3px solid #6a6a8a;
+            padding: 18px 50px;
+            margin: 25px;
+            cursor: pointer;
+            font-size: 20px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+        #captureButton:hover {
+            background: linear-gradient(135deg, #4a4a6a 0%, #5a5a7a 100%);
+            transform: scale(1.05);
+        }
+        #congratsScreen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 10, 26, 0.98);
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 250;
+            padding: 40px;
+            border-radius: 10px;
+        }
+        #congratsScreen.active { display: flex; }
+        #congratsTitle {
+            color: #ffd700;
+            font-size: 36px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        #congratsMessage {
+            color: #e0e0ff;
+            font-size: 20px;
+            text-align: center;
+            margin-bottom: 30px;
+            max-width: 600px;
+        }
+        #congratsStats {
+            color: #a0a0c0;
+            font-size: 18px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        #galleryScreen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 10, 26, 0.98);
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 300;
+            padding: 40px;
+            overflow-y: auto;
+            border-radius: 10px;
+        }
+        #galleryScreen.active { display: flex; }
+        #galleryGrid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            max-width: 750px;
+            margin: 25px 0;
+        }
+        .galleryPhoto {
+            width: 160px;
+            height: 120px;
+            border: 4px solid #4a4a6a;
+            border-radius: 10px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+        .galleryPhoto:hover {
+            transform: scale(1.1);
+            border-color: #6a6a8a;
+        }
+    </style>
 </head>
 <body>
-    <!-- Header -->
-    <header class="header">
-        <nav class="navbar">
-            <div class="nav-container">
-                <div class="nav-logo">
-                    <h2 style="color: white;">E-Portfolio PPG</h2>
-                </div>
-                <ul class="nav-menu">
-                    <li class="nav-item">
-                        <a href="#home" class="nav-link">Beranda</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#profil" class="nav-link">Profil</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#artefak" class="nav-link">Artefak Pembelajaran</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#refleksi" class="nav-link">Refleksi</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#kontak" class="nav-link">Kontak</a>
-                    </li>
-                </ul>
-                <div class="hamburger">
-                    <span class="bar"></span>
-                    <span class="bar"></span>
-                    <span class="bar"></span>
-                </div>
-            </div>
-        </nav>
-    </header>
-
-    <!-- Main Content -->
-    <main>
-        <!-- Hero Section -->
-        <section id="home" class="hero">
-            <div class="hero-container">
-                <div class="hero-content">
-                    <h1 class="hero-title">
-                    E-Portfolio<br>
-                    Ammar Al Hakim Asshiddiqi
-                    </h1>
-                    <p class="hero-subtitle">Mahasiswa PPG Informatika<br>Universitas Negeri Yogyakarta</p>
-                    <p class="hero-description">Selamat datang di E-Portfolio saya sebagai mahasiswa Program Profesi Guru (PPG) Calon Guru Informatika. Di sini Anda dapat menemukan berbagai dokumen, materi pembelajaran, dan hasil karya selama mengikuti pendidikan profesi guru.</p>
-                    <div class="hero-buttons">
-                        <a href="#profil" class="btn btn-primary">Lihat Profil</a>
-                        <a href="#artefak" class="btn btn-secondary">Lihat Artefak</a>
-                    </div>
-                </div>
-                <div class="hero-image">
-                    <div class="hero-card">
-                        <img src="https://lh3.googleusercontent.com/d/1S39EcAXTmmRQghQGTevQNlD4I0tSNcuz" alt="Profile Photo" class="profile-photo">
-                        <h3>Ammar Al Hakim Asshiddiqi</h3>
-                        <p>Calon Guru Informatika</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Profile Section -->
-        <section id="profil" class="section">
-            <div class="container">
-                <div class="section-header">
-                    <h2 class="section-title">Profil</h2>
-                    <p class="section-subtitle">Informasi pribadi dan akademik</p>
-                </div>
-                <div class="profile-container">
-                    <div class="profile-card">
-                        <div class="profile-photo-container">
-                            <img src="https://lh3.googleusercontent.com/d/1S39EcAXTmmRQghQGTevQNlD4I0tSNcuz" alt="Profile Photo" class="profile-photo-large">
-                        </div>
-                        <div class="profile-info">
-                            <h3 class="profile-name">Ammar Al Hakim Asshiddiqi</h3>
-                            <p class="profile-title">Mahasiswa PPG Informatika</p>
-                            <div class="profile-details">
-                                <div class="detail-item">
-                                    <strong>Nama Mahasiswa:</strong> Ammar Al Hakim Asshiddiqi
-                                </div>
-                                <div class="detail-item">
-                                    <strong>NIM:</strong> 25105260237
-                                </div>
-                                <div class="detail-item">
-                                    <strong>Prodi/Bidang Studi:</strong> Informatika
-                                </div>
-                                <div class="detail-item">
-                                    <strong>Instansi:</strong> Universitas Negeri Yogyakarta
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- Profil Mahasiswa -->
-        <section id="profil" class="section section-alt">
-            <div class="container">
-                <div class="section-header profil-content">
-                    <h2 class="section-title">Latar Belakang</h2>
-                    <p class="section-subtitle">
-
-                <p class="section-subtitle">
-                    Perkenalkan, saya Ammar Al Hakim Asshiddiqi, mahasiswa Pendidikan Profesi Guru (PPG) bidang Informatika yang berasal dari Kota Magelang, Jawa Tengah. Magelang dikenal sebagai kota yang sejuk dan kaya akan nilai sejarah serta budaya, karena berada di kawasan yang dikelilingi pegunungan dan dekat dengan Candi Borobudur. 
-                    Keunikan daerah ini terletak pada perpaduan antara kearifan lokal, keramahan masyarakat, dan semangat gotong royong yang masih terjaga hingga saat ini. Latar belakang tersebut menjadi inspirasi bagi saya untuk menekuni profesi guru. Saya meyakini bahwa pendidikan merupakan sarana utama dalam membentuk generasi yang tidak hanya memiliki kompetensi akademik, tetapi juga karakter yang kuat dan mampu beradaptasi dengan perkembangan teknologi. 
-                    Sebagai calon guru Informatika, saya ingin menghadirkan pembelajaran yang bermakna, inovatif, dan relevan dengan kebutuhan abad ke-21 melalui pemanfaatan teknologi digital dan pendekatan pembelajaran yang berpusat pada peserta didik.
-                    Melalui program PPG, saya terus mengembangkan kompetensi pedagogik, profesional, sosial, dan kepribadian agar mampu menjadi guru yang profesional, reflektif, dan adaptif terhadap perubahan. 
-                    Saya berharap dapat memberikan kontribusi nyata dalam meningkatkan kualitas pendidikan, khususnya pada bidang Informatika, sehingga peserta didik mampu menjadi pembelajar sepanjang hayat dan siap menghadapi tantangan masa depan.
-                </p>
-                <br>
-
-                <blockquote class="quote">
-                    "Pendidikan bukan sekadar transfer pengetahuan, tetapi proses menumbuhkan potensi terbaik dalam diri setiap peserta didik untuk menjadi pribadi yang berkarakter, kreatif, dan bermanfaat bagi masyarakat."
-                </blockquote>
-            </div>
-
-        <!-- Artefak Pembelajaran Section -->
-        <section id="artefak" class="section section-alt">
-            <div class="container">
-                <div class="section-header">
-                    <h2 class="section-title">Artefak Pembelajaran</h2>
-                    <p class="section-subtitle">Kumpulan modul, bahan ajar, media pembelajaran, dan instrumen penilaian</p>
-                </div>
-                
-                <!-- Modul Subsection -->
-                <div class="artefak-subsection">
-                    <h3 class="subsection-title">Modul Pembelajaran</h3>
-                    <h4 class="semester-label">Semester 1</h4>
-                    <div class="grid">
-                        <div class="card">
-                            <div class="card-icon">
-                                <i class="fas fa-book"></i>
-                            </div>
-                            <h3 class="card-title">Modul 1</h3>
-                            <p class="card-description">Modul pembelajaran pertama</p>
-                            <div class="card-actions">
-                                <a href="https://docs.google.com/document/d/12lMP3dfzq-As4qgnyiuJHz_D49suI02ij7HUY5D1Rso/preview" target="_blank" class="card-link preview-btn">
-                                    <i class="fas fa-eye"></i> Preview
-                                </a>
-                                <a href="https://docs.google.com/document/d/12lMP3dfzq-As4qgnyiuJHz_D49suI02ij7HUY5D1Rso/export?format=pdf" class="card-link download-btn">
-                                    <i class="fas fa-download"></i> Download
-                                </a>
-                            </div>
-                            <a href="https://docs.google.com/document/d/1HbJCC4emPV2XCx2uJgqm0S45aU8QA-iC1H7AgKXRGeI/edit?usp=sharing" class="card-link analisis-btn">
-                                    <i class="fas fa-chart-pie"></i> Analisis
-                                </a>
-                        </div>
-                        <div class="card">
-                            <div class="card-icon">
-                                <i class="fas fa-book-open"></i>
-                            </div>
-                            <h3 class="card-title">Modul 2</h3>
-                            <p class="card-description">Modul pembelajaran kedua</p>
-                            <div class="card-actions">
-                                <a href="https://docs.google.com/document/d/1oW7DNfHdjDv8E0W6lTipbUdEZBm3-zyT_rfTaQPhnT8/edit?usp=sharing" target="_blank" class="card-link preview-btn">
-                                    <i class="fas fa-eye"></i> Preview
-                                </a>
-                                <a href="https://docs.google.com/document/d/1oW7DNfHdjDv8E0W6lTipbUdEZBm3-zyT_rfTaQPhnT8/export?format=pdf" class="card-link download-btn">
-                                    <i class="fas fa-download"></i> Download
-                                </a>
-                            </div>
-                            <a href="https://docs.google.com/document/d/1HbJCC4emPV2XCx2uJgqm0S45aU8QA-iC1H7AgKXRGeI/edit?usp=sharing" class="card-link analisis-btn">
-                                    <i class="fas fa-chart-pie"></i> Analisis
-                                </a>
-                        </div>
-                        <div class="card">
-                            <div class="card-icon">
-                                <i class="fas fa-book-reader"></i>
-                            </div>
-                            <h3 class="card-title">Modul 3</h3>
-                            <p class="card-description">Modul pembelajaran ketiga</p>
-                            <div class="card-actions">
-                                <a href="https://docs.google.com/document/d/1Wu993ZZjfhkIug8yOTodaJkZzYdkm0Y_evlt6idf6oo/edit?usp=sharing" target="_blank" class="card-link preview-btn">
-                                    <i class="fas fa-eye"></i> Preview
-                                </a>
-                                <a href="https://docs.google.com/document/d/1Wu993ZZjfhkIug8yOTodaJkZzYdkm0Y_evlt6idf6oo/export?format=pdf" class="card-link download-btn">
-                                    <i class="fas fa-download"></i> Download
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <h4 class="semester-label">Semester 2</h4>
-                    <div class="grid">
-                        <div class="card">
-                            <div class="card-icon">
-                                <i class="fas fa-book"></i>
-                            </div>
-                            <h3 class="card-title">Modul 1</h3>
-                            <p class="card-description">Modul pembelajaran pertama</p>
-                            <div class="card-actions">
-                                <a href="https://drive.google.com/file/d/1pFPcguKBsg-WkBEF9qCe22XRXFapaiED/preview" target="_blank" class="card-link preview-btn">
-                                    <i class="fas fa-eye"></i> Preview
-                                </a>
-                                <a href="https://drive.google.com/file/d/1pFPcguKBsg-WkBEF9qCe22XRXFapaiED/export?format=pdf" class="card-link download-btn">
-                                    <i class="fas fa-download"></i> Download
-                                </a>
-                            </div>
-                            <a href="https://drive.google.com/file/d/1pFPcguKBsg-WkBEF9qCe22XRXFapaiED/edit?usp=sharing" class="card-link analisis-btn">
-                                    <i class="fas fa-chart-pie"></i> Analisis
-                                </a>
-                        </div>
-                        <div class="card">
-                            <div class="card-icon">
-                                <i class="fas fa-book-open"></i>
-                            </div>
-                            <h3 class="card-title">Modul 2</h3>
-                            <p class="card-description">Modul pembelajaran kedua</p>
-                            <div class="card-actions">
-                                <a href="https://drive.google.com/file/d/1uaVxCdHY-pVN-s1VwNFjnLk6FQO03jLb/edit?usp=sharing" target="_blank" class="card-link preview-btn">
-                                    <i class="fas fa-eye"></i> Preview
-                                </a>
-                                <a href="https://drive.google.com/file/d/1uaVxCdHY-pVN-s1VwNFjnLk6FQO03jLb/export?format=pdf" class="card-link download-btn">
-                                    <i class="fas fa-download"></i> Download
-                                </a>
-                            </div>
-                            <a href="https://drive.google.com/file/d/1uaVxCdHY-pVN-s1VwNFjnLk6FQO03jLb/edit?usp=sharing" class="card-link analisis-btn">
-                                    <i class="fas fa-chart-pie"></i> Analisis
-                                </a>
-                        </div>
-                        <div class="card">
-                            <div class="card-icon">
-                                <i class="fas fa-book-reader"></i>
-                            </div>
-                            <h3 class="card-title">Modul 3</h3>
-                            <p class="card-description">Modul pembelajaran ketiga</p>
-                            <div class="card-actions">
-                                <a href="https://drive.google.com/file/d/1hVxz-G7XB9SnJkiegHZ75envW2oPeQTZ/edit?usp=sharing" target="_blank" class="card-link preview-btn">
-                                    <i class="fas fa-eye"></i> Preview
-                                </a>
-                                <a href="https://drive.google.com/file/d/1hVxz-G7XB9SnJkiegHZ75envW2oPeQTZ/export?format=pdf" class="card-link download-btn">
-                                    <i class="fas fa-download"></i> Download
-                                </a>
-                            </div>
-                            <a href="https://drive.google.com/file/d/1hVxz-G7XB9SnJkiegHZ75envW2oPeQTZ/edit?usp=sharing" class="card-link analisis-btn">
-                                    <i class="fas fa-chart-pie"></i> Analisis
-                                </a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Bahan Ajar Subsection -->
-                <div class="artefak-subsection">
-                    <h3 class="subsection-title">Bahan Ajar</h3>
-                    <h4 class="semester-label">Semester 1</h4>
-                    <div class="grid">
-                        <div class="card">
-                            <div class="card-icon">
-                                <i class="fas fa-chalkboard-teacher"></i>
-                            </div>
-                            <h3 class="card-title">Bahan Ajar</h3>
-                            <p class="card-description">Materi pembelajaran landscape</p>
-                            <div class="card-actions">
-                                <a href="https://docs.google.com/document/d/1vtulbjqNFb8H40TDsQiSloySf-nm2WsMKzzhVcJP8Xs/edit?usp=sharing" target="_blank" class="card-link preview-btn">
-                                    <i class="fas fa-eye"></i> Preview
-                                </a>
-                                <a href="https://docs.google.com/document/d/1vtulbjqNFb8H40TDsQiSloySf-nm2WsMKzzhVcJP8Xs/export?format=pdf" class="card-link download-btn">
-                                    <i class="fas fa-download"></i> Download
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <h4 class="semester-label">Semester 2</h4>
-                    <div class="grid">
-                        <div class="card">
-                            <div class="card-icon">
-                                <i class="fas fa-chalkboard-teacher"></i>
-                            </div>
-                            <h3 class="card-title">Bahan Ajar</h3>
-                            <p class="card-description">Materi pembelajaran landscape</p>
-                            <div class="card-actions">
-                                <a href="https://drive.google.com/file/d/1OENHr4bsGa-Rq1Wb4sIHXQ6aYkRUnELK/view?usp=sharing" target="_blank" class="card-link preview-btn">
-                                    <i class="fas fa-eye"></i> Preview
-                                </a>
-                                <a href="https://drive.google.com/file/d/1OENHr4bsGa-Rq1Wb4sIHXQ6aYkRUnELK/export?format=pdf" class="card-link download-btn">
-                                    <i class="fas fa-download"></i> Download
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Media Ajar Subsection -->
-                <div class="artefak-subsection">
-                    <h3 class="subsection-title">Media Ajar</h3>
-                    <h4 class="semester-label">Semester 1</h4>
-                    <div class="grid">
-                        <div class="card">
-                            <div class="card-icon">
-                                <i class="fas fa-desktop"></i>
-                            </div>
-                            <h3 class="card-title">Media Ajar 1</h3>
-                            <p class="card-description">Presentasi pembelajaran pertama</p>
-                            <div class="card-actions">
-                                <a href="https://docs.google.com/presentation/d/1CwAsW0j-e6KJXWQY-7WGQpED4tmeOJl_/edit?usp=sharing&ouid=112426052313512665331&rtpof=true&sd=true" target="_blank" class="card-link preview-btn">
-                                    <i class="fas fa-eye"></i> Preview
-                                </a>
-                                <a href="https://docs.google.com/presentation/d/1CwAsW0j-e6KJXWQY-7WGQpED4tmeOJl_/export/pdf" class="card-link download-btn">
-                                    <i class="fas fa-download"></i> Download
-                                </a>
-                            </div>
-                            <a href="https://docs.google.com/document/d/1ib_jMWPzP-ZGIeqGXiYkNBWgTI6pJSpULWrjWVDFgXw/edit?usp=sharing" class="card-link analisis-btn">
-                                    <i class="fas fa-chart-pie"></i> Analisis
-                                </a>
-                        </div>
-                        <div class="card">
-                            <div class="card-icon">
-                                <i class="fas fa-laptop"></i>
-                            </div>
-                            <h3 class="card-title">Media Ajar 2</h3>
-                            <p class="card-description">Presentasi pembelajaran kedua</p>
-                            <div class="card-actions">
-                                <a href="https://docs.google.com/presentation/d/11t1Wlpfa7VMmXA6K-SvpvemDmZYwYYeM/edit?usp=sharing&ouid=112426052313512665331&rtpof=true&sd=true" target="_blank" class="card-link preview-btn">
-                                    <i class="fas fa-eye"></i> Preview
-                                </a>
-                                <a href="https://docs.google.com/presentation/d/11t1Wlpfa7VMmXA6K-SvpvemDmZYwYYeM/export/pdf" class="card-link download-btn">
-                                    <i class="fas fa-download"></i> Download
-                                </a>
-                            </div>
-                            <a href="https://docs.google.com/document/d/1ib_jMWPzP-ZGIeqGXiYkNBWgTI6pJSpULWrjWVDFgXw/edit?usp=sharing" class="card-link analisis-btn">
-                                    <i class="fas fa-chart-pie"></i> Analisis
-                                </a>
-                        </div>
-                        <div class="card">
-                            <div class="card-icon">
-                                <i class="fas fa-tv"></i>
-                            </div>
-                            <h3 class="card-title">Media Ajar 3</h3>
-                            <p class="card-description">Presentasi pembelajaran ketiga</p>
-                            <div class="card-actions">
-                                <a href="https://docs.google.com/presentation/d/1epHFrTS-2aLs3x6Gi3_hepO1O1YCvCaw/edit?usp=sharing&ouid=112426052313512665331&rtpof=true&sd=true" target="_blank" class="card-link preview-btn">
-                                    <i class="fas fa-eye"></i> Preview
-                                </a>
-                                <a href="https://docs.google.com/presentation/d/1epHFrTS-2aLs3x6Gi3_hepO1O1YCvCaw/export/pdf" class="card-link download-btn">
-                                    <i class="fas fa-download"></i> Download
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <h4 class="semester-label">Semester 2</h4>
-                    <div class="grid">
-                        <div class="card">
-                            <div class="card-icon">
-                                <i class="fas fa-desktop"></i>
-                            </div>
-                            <h3 class="card-title">Media Ajar 1</h3>
-                            <p class="card-description">Presentasi pembelajaran pertama</p>
-                            <div class="card-actions">
-                                <a href="https://drive.google.com/file/d/1AuBxz8AT7cu_WxM6hV4Xzd_H9GXPRbPa/view?usp=sharing" target="_blank" class="card-link preview-btn">
-                                    <i class="fas fa-eye"></i> Preview
-                                </a>
-                                <a href="https://drive.google.com/file/d/1AuBxz8AT7cu_WxM6hV4Xzd_H9GXPRbPa/export/pdf" class="card-link download-btn">
-                                    <i class="fas fa-download"></i> Download
-                                </a>
-                            </div>
-                            <a href="https://drive.google.com/file/d/1AuBxz8AT7cu_WxM6hV4Xzd_H9GXPRbPa/edit?usp=sharing" class="card-link analisis-btn">
-                                    <i class="fas fa-chart-pie"></i> Analisis
-                                </a>
-                        </div>
-                        <div class="card">
-                            <div class="card-icon">
-                                <i class="fas fa-laptop"></i>
-                            </div>
-                            <h3 class="card-title">Media Ajar 2</h3>
-                            <p class="card-description">Presentasi pembelajaran kedua</p>
-                            <div class="card-actions">
-                                <a href="https://drive.google.com/file/d/1IyNGOmViBsWH1HaQ3bAxxZUfKHbJLt16/view?usp=sharing" target="_blank" class="card-link preview-btn">
-                                    <i class="fas fa-eye"></i> Preview
-                                </a>
-                                <a href="https://drive.google.com/file/d/1IyNGOmViBsWH1HaQ3bAxxZUfKHbJLt16/export/pdf" class="card-link download-btn">
-                                    <i class="fas fa-download"></i> Download
-                                </a>
-                            </div>
-                            <a href="https://drive.google.com/file/d/1IyNGOmViBsWH1HaQ3bAxxZUfKHbJLt16/edit?usp=sharing" class="card-link analisis-btn">
-                                    <i class="fas fa-chart-pie"></i> Analisis
-                                </a>
-                        </div>
-                        <div class="card">
-                            <div class="card-icon">
-                                <i class="fas fa-tv"></i>
-                            </div>
-                            <h3 class="card-title">Media Ajar 3</h3>
-                            <p class="card-description">Presentasi pembelajaran ketiga</p>
-                            <div class="card-actions">
-                                <a href="https://drive.google.com/file/d/1M3iTcuX1bCz-OuwF5b31ybDZMUVzhDtI/view?usp=sharing" target="_blank" class="card-link preview-btn">
-                                    <i class="fas fa-eye"></i> Preview
-                                </a>
-                                <a href="https://drive.google.com/file/d/1M3iTcuX1bCz-OuwF5b31ybDZMUVzhDtI/export/pdf" class="card-link download-btn">
-                                    <i class="fas fa-download"></i> Download
-                                </a>
-                            </div>
-                            <a href="https://drive.google.com/file/d/1M3iTcuX1bCz-OuwF5b31ybDZMUVzhDtI/edit?usp=sharing" class="card-link analisis-btn">
-                                    <i class="fas fa-chart-pie"></i> Analisis
-                                </a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Instrumen Penilaian Subsection -->
-                <div class="artefak-subsection">
-                    <h3 class="subsection-title">Instrumen Penilaian</h3>
-                    <h4 class="semester-label">Semester 1</h4>
-                    <div class="grid">
-                        <div class="card">
-                            <div class="card-icon">
-                                <i class="fas fa-clipboard-check"></i>
-                            </div>
-                            <h3 class="card-title">Instrumen Penilaian RPP</h3>
-                            <p class="card-description">Instrumen penilaian landscape</p>
-                            <div class="card-actions">
-                                <a href="https://docs.google.com/document/d/1Dc-nINdm_sVwnOBUCnbnrYP1mnEy7ZIh/edit?usp=sharing&ouid=112426052313512665331&rtpof=true&sd=true" target="_blank" class="card-link preview-btn">
-                                    <i class="fas fa-eye"></i> Preview
-                                </a>
-                                <a href="https://docs.google.com/document/d/1Dc-nINdm_sVwnOBUCnbnrYP1mnEy7ZIh/export?format=pdf" class="card-link download-btn">
-                                    <i class="fas fa-download"></i> Download
-                                </a>
-                            </div>
-                            <a href="https://docs.google.com/document/d/1HoNg52ZST3cHdaN-GVK8eZY6kElzsOySQn4ZdxJsaC8/edit?usp=sharing" class="card-link analisis-btn">
-                                    <i class="fas fa-chart-pie"></i> Analisis
-                                </a>
-                        </div>
-                        <div class="card">
-                            <div class="card-icon">
-                                <i class="fas fa-clipboard-list"></i>
-                            </div>
-                            <h3 class="card-title">Instrumen Penilaian Praktik Mengajar</h3>
-                            <p class="card-description">Instrumen penilaian landscape</p>
-                            <div class="card-actions">
-                                <a href="https://docs.google.com/document/d/16HcWzroBquZ72poPfpTgLoyn52fQOerA/edit?usp=sharing&ouid=112426052313512665331&rtpof=true&sd=true" target="_blank" class="card-link preview-btn">
-                                    <i class="fas fa-eye"></i> Preview
-                                </a>
-                                <a href="https://docs.google.com/document/d/16HcWzroBquZ72poPfpTgLoyn52fQOerA/export?format=pdf" class="card-link download-btn">
-                                    <i class="fas fa-download"></i> Download
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <h4 class="semester-label">Semester 2</h4>
-                    <div class="grid">
-                        <div class="card">
-                            <div class="card-icon">
-                                <i class="fas fa-clipboard-check"></i>
-                            </div>
-                            <h3 class="card-title">Instrumen Penilaian RPP</h3>
-                            <p class="card-description">Instrumen penilaian landscape</p>
-                            <div class="card-actions">
-                                <a href="https://docs.google.com/document/d/1Dc-nINdm_sVwnOBUCnbnrYP1mnEy7ZIh/edit?usp=sharing&ouid=112426052313512665331&rtpof=true&sd=true" target="_blank" class="card-link preview-btn">
-                                    <i class="fas fa-eye"></i> Preview
-                                </a>
-                                <a href="https://docs.google.com/document/d/1Dc-nINdm_sVwnOBUCnbnrYP1mnEy7ZIh/export?format=pdf" class="card-link download-btn">
-                                    <i class="fas fa-download"></i> Download
-                                </a>
-                            </div>
-                            <a href="https://docs.google.com/document/d/1HoNg52ZST3cHdaN-GVK8eZY6kElzsOySQn4ZdxJsaC8/edit?usp=sharing" class="card-link analisis-btn">
-                                    <i class="fas fa-chart-pie"></i> Analisis
-                                </a>
-                        </div>
-                        <div class="card">
-                            <div class="card-icon">
-                                <i class="fas fa-clipboard-list"></i>
-                            </div>
-                            <h3 class="card-title">Instrumen Penilaian Praktik Mengajar</h3>
-                            <p class="card-description">Instrumen penilaian landscape</p>
-                            <div class="card-actions">
-                                <a href="https://docs.google.com/document/d/16HcWzroBquZ72poPfpTgLoyn52fQOerA/edit?usp=sharing&ouid=112426052313512665331&rtpof=true&sd=true" target="_blank" class="card-link preview-btn">
-                                    <i class="fas fa-eye"></i> Preview
-                                </a>
-                                <a href="https://docs.google.com/document/d/16HcWzroBquZ72poPfpTgLoyn52fQOerA/export?format=pdf" class="card-link download-btn">
-                                    <i class="fas fa-download"></i> Download
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Hasil Belajar Siswa Subsection -->
-                <div class="artefak-subsection">
-                    <h3 class="subsection-title">Hasil Belajar Siswa</h3>
-                    <h4 class="semester-label">Semester 1</h4>
-                    <div class="grid">
-                        <div class="card">
-                            <div class="card-icon">
-                                <i class="fas fa-chart-line"></i>
-                            </div>
-                            <h3 class="card-title">Hasil Belajar Siswa Siklus 1</h3>
-                            <p class="card-description">Data hasil belajar siklus pertama</p>
-                            <div class="card-actions">
-                                <a href="https://docs.google.com/spreadsheets/d/1ZQhOHno3IC7tj_SUvX_iRqiG89BdwyyA/edit?usp=sharing&ouid=112426052313512665331&rtpof=true&sd=true" target="_blank" class="card-link preview-btn">
-                                    <i class="fas fa-eye"></i> Preview
-                                </a>
-                                <a href="https://docs.google.com/spreadsheets/d/1ZQhOHno3IC7tj_SUvX_iRqiG89BdwyyA/export?format=xlsx" class="card-link download-btn">
-                                    <i class="fas fa-download"></i> Download
-                                </a>
-                            </div>
-                            <a href="https://docs.google.com/document/d/1ajJBgBqFSCeAvT0NgU7vji_QdXnS3GAaP2Cam8XIRmE/edit?usp=sharing" class="card-link analisis-btn">
-                                    <i class="fas fa-chart-pie"></i> Analisis
-                                </a>
-                        </div>
-                        <div class="card">
-                            <div class="card-icon">
-                                <i class="fas fa-chart-bar"></i>
-                            </div>
-                            <h3 class="card-title">Hasil Belajar Siswa Siklus 2</h3>
-                            <p class="card-description">Data hasil belajar siklus kedua</p>
-                            <div class="card-actions">
-                                <a href="https://docs.google.com/spreadsheets/d/11RPBo-7lpifEfeirGOddrh9FKVzuRAem/edit?usp=sharing&ouid=112426052313512665331&rtpof=true&sd=true" target="_blank" class="card-link preview-btn">
-                                    <i class="fas fa-eye"></i> Preview
-                                </a>
-                                <a href="https://docs.google.com/spreadsheets/d/11RPBo-7lpifEfeirGOddrh9FKVzuRAem/export?format=xlsx" class="card-link download-btn">
-                                    <i class="fas fa-download"></i> Download
-                                </a>
-                            </div>
-                            <a href="https://docs.google.com/document/d/1HbJCC4emPV2XCx2uJgqm0S45aU8QA-iC1H7AgKXRGeI/edit?usp=sharing" class="card-link analisis-btn">
-                                    <i class="fas fa-chart-pie"></i> Analisis
-                                </a>
-                        </div>
-                        <div class="card">
-                            <div class="card-icon">
-                                <i class="fas fa-file-alt"></i>
-                            </div>
-                            <h3 class="card-title">Hasil Belajar Siswa Siklus 3</h3>
-                            <p class="card-description">Data hasil belajar siklus ketiga</p>
-                            <div class="card-actions">
-                                <a href="https://docs.google.com/document/d/1DZvvTh4CtktoqBLjeBXq7JKufl2zccy1/edit?usp=sharing&ouid=112426052313512665331&rtpof=true&sd=true" target="_blank" class="card-link preview-btn">
-                                    <i class="fas fa-eye"></i> Preview
-                                </a>
-                                <a href="https://docs.google.com/document/d/1DZvvTh4CtktoqBLjeBXq7JKufl2zccy1/export?format=pdf" class="card-link download-btn">
-                                    <i class="fas fa-download"></i> Download
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <h4 class="semester-label">Semester 2</h4>
-                    <div class="grid">
-                        <div class="card">
-                            <div class="card-icon">
-                                <i class="fas fa-chart-line"></i>
-                            </div>
-                            <h3 class="card-title">Hasil Belajar Siswa Siklus 1</h3>
-                            <p class="card-description">Data hasil belajar siklus pertama</p>
-                            <div class="card-actions">
-                                <a href="https://docs.google.com/spreadsheets/d/1ZQhOHno3IC7tj_SUvX_iRqiG89BdwyyA/edit?usp=sharing&ouid=112426052313512665331&rtpof=true&sd=true" target="_blank" class="card-link preview-btn">
-                                    <i class="fas fa-eye"></i> Preview
-                                </a>
-                                <a href="https://docs.google.com/spreadsheets/d/1ZQhOHno3IC7tj_SUvX_iRqiG89BdwyyA/export?format=xlsx" class="card-link download-btn">
-                                    <i class="fas fa-download"></i> Download
-                                </a>
-                            </div>
-                            <a href="https://docs.google.com/document/d/1ajJBgBqFSCeAvT0NgU7vji_QdXnS3GAaP2Cam8XIRmE/edit?usp=sharing" class="card-link analisis-btn">
-                                    <i class="fas fa-chart-pie"></i> Analisis
-                                </a>
-                        </div>
-                        <div class="card">
-                            <div class="card-icon">
-                                <i class="fas fa-chart-bar"></i>
-                            </div>
-                            <h3 class="card-title">Hasil Belajar Siswa Siklus 2</h3>
-                            <p class="card-description">Data hasil belajar siklus kedua</p>
-                            <div class="card-actions">
-                                <a href="https://docs.google.com/spreadsheets/d/11RPBo-7lpifEfeirGOddrh9FKVzuRAem/edit?usp=sharing&ouid=112426052313512665331&rtpof=true&sd=true" target="_blank" class="card-link preview-btn">
-                                    <i class="fas fa-eye"></i> Preview
-                                </a>
-                                <a href="https://docs.google.com/spreadsheets/d/11RPBo-7lpifEfeirGOddrh9FKVzuRAem/export?format=xlsx" class="card-link download-btn">
-                                    <i class="fas fa-download"></i> Download
-                                </a>
-                            </div>
-                            <a href="https://docs.google.com/document/d/1HbJCC4emPV2XCx2uJgqm0S45aU8QA-iC1H7AgKXRGeI/edit?usp=sharing" class="card-link analisis-btn">
-                                    <i class="fas fa-chart-pie"></i> Analisis
-                                </a>
-                        </div>
-                        <div class="card">
-                            <div class="card-icon">
-                                <i class="fas fa-file-alt"></i>
-                            </div>
-                            <h3 class="card-title">Hasil Belajar Siswa Siklus 3</h3>
-                            <p class="card-description">Data hasil belajar siklus ketiga</p>
-                            <div class="card-actions">
-                                <a href="https://docs.google.com/document/d/1DZvvTh4CtktoqBLjeBXq7JKufl2zccy1/edit?usp=sharing&ouid=112426052313512665331&rtpof=true&sd=true" target="_blank" class="card-link preview-btn">
-                                    <i class="fas fa-eye"></i> Preview
-                                </a>
-                                <a href="https://docs.google.com/document/d/1DZvvTh4CtktoqBLjeBXq7JKufl2zccy1/export?format=pdf" class="card-link download-btn">
-                                    <i class="fas fa-download"></i> Download
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Asessmen Subsection -->
-                <div class="artefak-subsection">
-                    <h3 class="subsection-title">Asessmen</h3>
-                    <h4 class="semester-label">Semester 1</h4>
-                    <div class="grid">
-                        <div class="card">
-                            <div class="card-icon">
-                                <i class="fas fa-clipboard-check"></i>
-                            </div>
-                            <h3 class="card-title">Asessmen 1</h3>
-                            <p class="card-description">Instrumen penilaian pertama</p>
-                            <div class="card-actions">
-                                <a href="https://docs.google.com/document/d/1rBdzlro8bXtRDvyrLh6KfjdQRPaRQ0V1/edit?usp=sharing&ouid=112426052313512665331&rtpof=true&sd=true" target="_blank" class="card-link preview-btn">
-                                    <i class="fas fa-eye"></i> Preview
-                                </a>
-                                <a href="https://docs.google.com/document/d/1rBdzlro8bXtRDvyrLh6KfjdQRPaRQ0V1/export?format=pdf" class="card-link download-btn">
-                                    <i class="fas fa-download"></i> Download
-                                </a>
-                            </div>
-                            <a href="https://docs.google.com/document/d/1HbJCC4emPV2XCx2uJgqm0S45aU8QA-iC1H7AgKXRGeI/edit?usp=sharing" class="card-link analisis-btn">
-                                    <i class="fas fa-chart-pie"></i> Analisis
-                                </a>
-                        </div>
-                        <div class="card">
-                            <div class="card-icon">
-                                <i class="fas fa-table"></i>
-                            </div>
-                            <h3 class="card-title">Asessmen 2</h3>
-                            <p class="card-description">Instrumen penilaian kedua</p>
-                            <div class="card-actions">
-                                <a href="https://docs.google.com/spreadsheets/d/18ARi11L12axK0UMFWMmXfDomCwSGPd_H/edit?usp=sharing&ouid=112426052313512665331&rtpof=true&sd=true" target="_blank" class="card-link preview-btn">
-                                    <i class="fas fa-eye"></i> Preview
-                                </a>
-                                <a href="https://docs.google.com/spreadsheets/d/18ARi11L12axK0UMFWMmXfDomCwSGPd_H/export?format=xlsx" class="card-link download-btn">
-                                    <i class="fas fa-download"></i> Download
-                                </a>
-                            </div>
-                            <a href="https://docs.google.com/document/d/1HbJCC4emPV2XCx2uJgqm0S45aU8QA-iC1H7AgKXRGeI/edit?usp=sharing" class="card-link analisis-btn">
-                                    <i class="fas fa-chart-pie"></i> Analisis
-                                </a>
-                        </div>
-                        <div class="card">
-                            <div class="card-icon">
-                                <i class="fas fa-chart-bar"></i>
-                            </div>
-                            <h3 class="card-title">Asessmen 3</h3>
-                            <p class="card-description">Instrumen penilaian ketiga</p>
-                            <div class="card-actions">
-                                <a href="https://docs.google.com/spreadsheets/d/113GmLkaZvKbncgXkNj9hL8cQJCSCjXscK_inRyfy/edit?usp=sharing&ouid=112426052313512665331&rtpof=true&sd=true" target="_blank" class="card-link preview-btn">
-                                    <i class="fas fa-eye"></i> Preview
-                                </a>
-                                <a href="https://docs.google.com/spreadsheets/d/113GmLkaZvKbncgXkNj9hL8cQJCSCjXscK_inRyfy/export?format=xlsx" class="card-link download-btn">
-                                    <i class="fas fa-download"></i> Download
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <h4 class="semester-label">Semester 2</h4>
-                    <div class="grid">
-                        <div class="card">
-                            <div class="card-icon">
-                                <i class="fas fa-clipboard-check"></i>
-                            </div>
-                            <h3 class="card-title">Asessmen 1</h3>
-                            <p class="card-description">Instrumen penilaian pertama</p>
-                            <div class="card-actions">
-                                <a href="https://docs.google.com/document/d/1rBdzlro8bXtRDvyrLh6KfjdQRPaRQ0V1/edit?usp=sharing&ouid=112426052313512665331&rtpof=true&sd=true" target="_blank" class="card-link preview-btn">
-                                    <i class="fas fa-eye"></i> Preview
-                                </a>
-                                <a href="https://docs.google.com/document/d/1rBdzlro8bXtRDvyrLh6KfjdQRPaRQ0V1/export?format=pdf" class="card-link download-btn">
-                                    <i class="fas fa-download"></i> Download
-                                </a>
-                            </div>
-                            <a href="https://docs.google.com/document/d/1HbJCC4emPV2XCx2uJgqm0S45aU8QA-iC1H7AgKXRGeI/edit?usp=sharing" class="card-link analisis-btn">
-                                    <i class="fas fa-chart-pie"></i> Analisis
-                                </a>
-                        </div>
-                        <div class="card">
-                            <div class="card-icon">
-                                <i class="fas fa-table"></i>
-                            </div>
-                            <h3 class="card-title">Asessmen 2</h3>
-                            <p class="card-description">Instrumen penilaian kedua</p>
-                            <div class="card-actions">
-                                <a href="https://docs.google.com/spreadsheets/d/18ARi11L12axK0UMFWMmXfDomCwSGPd_H/edit?usp=sharing&ouid=112426052313512665331&rtpof=true&sd=true" target="_blank" class="card-link preview-btn">
-                                    <i class="fas fa-eye"></i> Preview
-                                </a>
-                                <a href="https://docs.google.com/spreadsheets/d/18ARi11L12axK0UMFWMmXfDomCwSGPd_H/export?format=xlsx" class="card-link download-btn">
-                                    <i class="fas fa-download"></i> Download
-                                </a>
-                            </div>
-                            <a href="https://docs.google.com/document/d/1HbJCC4emPV2XCx2uJgqm0S45aU8QA-iC1H7AgKXRGeI/edit?usp=sharing" class="card-link analisis-btn">
-                                    <i class="fas fa-chart-pie"></i> Analisis
-                                </a>
-                        </div>
-                        <div class="card">
-                            <div class="card-icon">
-                                <i class="fas fa-chart-bar"></i>
-                            </div>
-                            <h3 class="card-title">Asessmen 3</h3>
-                            <p class="card-description">Instrumen penilaian ketiga</p>
-                            <div class="card-actions">
-                                <a href="https://docs.google.com/spreadsheets/d/113GmLkaZvKbncgXkNj9hL8cQJCSCjXscK_inRyfy/edit?usp=sharing&ouid=112426052313512665331&rtpof=true&sd=true" target="_blank" class="card-link preview-btn">
-                                    <i class="fas fa-eye"></i> Preview
-                                </a>
-                                <a href="https://docs.google.com/spreadsheets/d/113GmLkaZvKbncgXkNj9hL8cQJCSCjXscK_inRyfy/export?format=xlsx" class="card-link download-btn">
-                                    <i class="fas fa-download"></i> Download
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Dokumentasi Subsection -->
-                <div class="artefak-subsection">
-                    <h3 class="subsection-title">Dokumentasi</h3>
-                    <h4 class="semester-label">Semester 1</h4>
-                    <div class="grid">
-                        <div class="card">
-                            <div class="card-icon">
-                                <i class="fas fa-camera"></i>
-                            </div>
-                            <div class="dokumentasi-preview">
-                                <img src="https://lh3.googleusercontent.com/d/1UVzJr-3K0J94-HFNuTTWW7eSG9nzLWmo" alt="Dokumentasi 1" class="dokumentasi-thumbnail">
-                            </div>
-                            <h3 class="card-title">Dokumentasi 1</h3>
-                            <p class="card-description">Dokumentasi kegiatan pembelajaran</p>
-                            <div class="card-actions">
-                                <a href="https://drive.google.com/file/d/1UVzJr-3K0J94-HFNuTTWW7eSG9nzLWmo/view?usp=sharing" target="_blank" class="card-link preview-btn">
-                                    <i class="fas fa-eye"></i> Preview
-                                </a>
-                                <a href="https://drive.google.com/uc?export=download&id=1UVzJr-3K0J94-HFNuTTWW7eSG9nzLWmo" class="card-link download-btn">
-                                    <i class="fas fa-download"></i> Download
-                                </a>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-icon">
-                                <i class="fas fa-images"></i>
-                            </div>
-                            <div class="dokumentasi-preview">
-                                <img src="https://lh3.googleusercontent.com/d/1qr3uc5YnEa7zx4FORsPYRNibkeHINsXR" alt="Dokumentasi 2" class="dokumentasi-thumbnail">
-                            </div>
-                            <h3 class="card-title">Dokumentasi 2</h3>
-                            <p class="card-description">Dokumentasi kegiatan pembelajaran</p>
-                            <div class="card-actions">
-                                <a href="https://drive.google.com/file/d/1qr3uc5YnEa7zx4FORsPYRNibkeHINsXR/view?usp=sharing" target="_blank" class="card-link preview-btn">
-                                    <i class="fas fa-eye"></i> Preview
-                                </a>
-                                <a href="https://drive.google.com/uc?export=download&id=1qr3uc5YnEa7zx4FORsPYRNibkeHINsXR" class="card-link download-btn">
-                                    <i class="fas fa-download"></i> Download
-                                </a>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-icon">
-                                <i class="fas fa-photo-video"></i>
-                            </div>
-                            <div class="dokumentasi-preview">
-                                <img src="https://lh3.googleusercontent.com/d/10gNGg4Jz-kjvr9BV4YZNef9JcralHflz" alt="Dokumentasi 3" class="dokumentasi-thumbnail">
-                            </div>
-                            <h3 class="card-title">Dokumentasi 3</h3>
-                            <p class="card-description">Dokumentasi kegiatan pembelajaran</p>
-                            <div class="card-actions">
-                                <a href="https://drive.google.com/file/d/10gNGg4Jz-kjvr9BV4YZNef9JcralHflz/view?usp=sharing" target="_blank" class="card-link preview-btn">
-                                    <i class="fas fa-eye"></i> Preview
-                                </a>
-                                <a href="https://drive.google.com/uc?export=download&id=10gNGg4Jz-kjvr9BV4YZNef9JcralHflz" class="card-link download-btn">
-                                    <i class="fas fa-download"></i> Download
-                                </a>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-icon">
-                                <i class="fas fa-video"></i>
-                            </div>
-                            <div class="dokumentasi-preview">
-                                <img src="https://lh3.googleusercontent.com/d/1OTNonYl-GlKWWbfjo7uqctXO0hy5g3BW" alt="Dokumentasi 4" class="dokumentasi-thumbnail">
-                            </div>
-                            <h3 class="card-title">Dokumentasi 4</h3>
-                            <p class="card-description">Dokumentasi kegiatan pembelajaran</p>
-                            <div class="card-actions">
-                                <a href="https://drive.google.com/file/d/1OTNonYl-GlKWWbfjo7uqctXO0hy5g3BW/view?usp=sharing" target="_blank" class="card-link preview-btn">
-                                    <i class="fas fa-eye"></i> Preview
-                                </a>
-                                <a href="https://drive.google.com/uc?export=download&id=1OTNonYl-GlKWWbfjo7uqctXO0hy5g3BW" class="card-link download-btn">
-                                    <i class="fas fa-download"></i> Download
-                                </a>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-icon">
-                                <i class="fas fa-folder-open"></i>
-                            </div>
-                            <div class="dokumentasi-preview">
-                                <img src="https://lh3.googleusercontent.com/d/1_mxzrU2vkJgIsAYGG7H7OFzw-XMxJzls" alt="Dokumentasi 5" class="dokumentasi-thumbnail">
-                            </div>
-                            <h3 class="card-title">Dokumentasi 5</h3>
-                            <p class="card-description">Dokumentasi kegiatan pembelajaran</p>
-                            <div class="card-actions">
-                                <a href="https://drive.google.com/file/d/1_mxzrU2vkJgIsAYGG7H7OFzw-XMxJzls/view?usp=sharing" target="_blank" class="card-link preview-btn">
-                                    <i class="fas fa-eye"></i> Preview
-                                </a>
-                                <a href="https://drive.google.com/uc?export=download&id=1_mxzrU2vkJgIsAYGG7H7OFzw-XMxJzls" class="card-link download-btn">
-                                    <i class="fas fa-download"></i> Download
-                                </a>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-icon">
-                                <i class="fas fa-archive"></i>
-                            </div>
-                            <div class="dokumentasi-preview">
-                                <img src="https://lh3.googleusercontent.com/d/1JwTqZz3ylQh6LWVNBIyW0qIuhQnFAXtA" alt="Dokumentasi 6" class="dokumentasi-thumbnail">
-                            </div>
-                            <h3 class="card-title">Dokumentasi 6</h3>
-                            <p class="card-description">Dokumentasi kegiatan pembelajaran</p>
-                            <div class="card-actions">
-                                <a href="https://drive.google.com/file/d/1JwTqZz3ylQh6LWVNBIyW0qIuhQnFAXtA/view?usp=sharing" target="_blank" class="card-link preview-btn">
-                                    <i class="fas fa-eye"></i> Preview
-                                </a>
-                                <a href="https://drive.google.com/uc?export=download&id=1JwTqZz3ylQh6LWVNBIyW0qIuhQnFAXtA" class="card-link download-btn">
-                                    <i class="fas fa-download"></i> Download
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <h4 class="semester-label">Semester 2</h4>
-                    <div class="grid">
-                        <div class="card">
-                            <div class="card-icon">
-                                <i class="fas fa-camera"></i>
-                            </div>
-                            <div class="dokumentasi-preview">
-                                <img src="https://lh3.googleusercontent.com/d/1VuiFdKYrevUzip7f9kCLBCf1DNaIQldd" alt="Dokumentasi 1" class="dokumentasi-thumbnail">
-                            </div>
-                            <h3 class="card-title">Dokumentasi 1</h3>
-                            <p class="card-description">Dokumentasi kegiatan pembelajaran</p>
-                            <div class="card-actions">
-                                <a href="https://drive.google.com/file/d/1VuiFdKYrevUzip7f9kCLBCf1DNaIQldd/view?usp=sharing" target="_blank" class="card-link preview-btn">
-                                    <i class="fas fa-eye"></i> Preview
-                                </a>
-                                <a href="https://drive.google.com/uc?export=download&id=1VuiFdKYrevUzip7f9kCLBCf1DNaIQldd" class="card-link download-btn">
-                                    <i class="fas fa-download"></i> Download
-                                </a>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-icon">
-                                <i class="fas fa-images"></i>
-                            </div>
-                            <div class="dokumentasi-preview">
-                                <img src="https://lh3.googleusercontent.com/d/1_T2oV9KyVe6iYCe1OdrduAx3aS4I_JeZ" alt="Dokumentasi 2" class="dokumentasi-thumbnail">
-                            </div>
-                            <h3 class="card-title">Dokumentasi 2</h3>
-                            <p class="card-description">Dokumentasi kegiatan pembelajaran</p>
-                            <div class="card-actions">
-                                <a href="https://drive.google.com/file/d/1_T2oV9KyVe6iYCe1OdrduAx3aS4I_JeZ/view?usp=sharing" target="_blank" class="card-link preview-btn">
-                                    <i class="fas fa-eye"></i> Preview
-                                </a>
-                                <a href="https://drive.google.com/uc?export=download&id=1_T2oV9KyVe6iYCe1OdrduAx3aS4I_JeZ" class="card-link download-btn">
-                                    <i class="fas fa-download"></i> Download
-                                </a>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-icon">
-                                <i class="fas fa-photo-video"></i>
-                            </div>
-                            <div class="dokumentasi-preview">
-                                <img src="https://lh3.googleusercontent.com/d/1UbRorCOD6N99waG9GKHuUifyDGUxxbEv" alt="Dokumentasi 3" class="dokumentasi-thumbnail">
-                            </div>
-                            <h3 class="card-title">Dokumentasi 3</h3>
-                            <p class="card-description">Dokumentasi kegiatan pembelajaran</p>
-                            <div class="card-actions">
-                                <a href="https://drive.google.com/file/d/1UbRorCOD6N99waG9GKHuUifyDGUxxbEv/view?usp=sharing" target="_blank" class="card-link preview-btn">
-                                    <i class="fas fa-eye"></i> Preview
-                                </a>
-                                <a href="https://drive.google.com/uc?export=download&id=1UbRorCOD6N99waG9GKHuUifyDGUxxbEv" class="card-link download-btn">
-                                    <i class="fas fa-download"></i> Download
-                                </a>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-icon">
-                                <i class="fas fa-video"></i>
-                            </div>
-                            <div class="dokumentasi-preview">
-                                <img src="https://lh3.googleusercontent.com/d/1FSeig7oe4PlZS_-am9dczvNikF2OyHVp" alt="Dokumentasi 4" class="dokumentasi-thumbnail">
-                            </div>
-                            <h3 class="card-title">Dokumentasi 4</h3>
-                            <p class="card-description">Dokumentasi kegiatan pembelajaran</p>
-                            <div class="card-actions">
-                                <a href="https://drive.google.com/file/d/1FSeig7oe4PlZS_-am9dczvNikF2OyHVp/view?usp=sharing" target="_blank" class="card-link preview-btn">
-                                    <i class="fas fa-eye"></i> Preview
-                                </a>
-                                <a href="https://drive.google.com/uc?export=download&id=1FSeig7oe4PlZS_-am9dczvNikF2OyHVp" class="card-link download-btn">
-                                    <i class="fas fa-download"></i> Download
-                                </a>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-icon">
-                                <i class="fas fa-folder-open"></i>
-                            </div>
-                            <div class="dokumentasi-preview">
-                                <img src="https://lh3.googleusercontent.com/d/1TwxeNyKfjZfSLNSvIyP5leJauq9GwK5U" alt="Dokumentasi 5" class="dokumentasi-thumbnail">
-                            </div>
-                            <h3 class="card-title">Dokumentasi 5</h3>
-                            <p class="card-description">Dokumentasi kegiatan pembelajaran</p>
-                            <div class="card-actions">
-                                <a href="https://drive.google.com/file/d/1TwxeNyKfjZfSLNSvIyP5leJauq9GwK5U/view?usp=sharing" target="_blank" class="card-link preview-btn">
-                                    <i class="fas fa-eye"></i> Preview
-                                </a>
-                                <a href="https://drive.google.com/uc?export=download&id=1TwxeNyKfjZfSLNSvIyP5leJauq9GwK5U" class="card-link download-btn">
-                                    <i class="fas fa-download"></i> Download
-                                </a>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-icon">
-                                <i class="fas fa-archive"></i>
-                            </div>
-                            <div class="dokumentasi-preview">
-                                <img src="https://lh3.googleusercontent.com/d/1zn5PtCkOrcaREqeT22_NfrHwUJRLun3a" alt="Dokumentasi 6" class="dokumentasi-thumbnail">
-                            </div>
-                            <h3 class="card-title">Dokumentasi 6</h3>
-                            <p class="card-description">Dokumentasi kegiatan pembelajaran</p>
-                            <div class="card-actions">
-                                <a href="https://drive.google.com/file/d/1zn5PtCkOrcaREqeT22_NfrHwUJRLun3a/view?usp=sharing" target="_blank" class="card-link preview-btn">
-                                    <i class="fas fa-eye"></i> Preview
-                                </a>
-                                <a href="https://drive.google.com/uc?export=download&id=1zn5PtCkOrcaREqeT22_NfrHwUJRLun3a" class="card-link download-btn">
-                                    <i class="fas fa-download"></i> Download
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <h4 class="semester-label">Video Dokumentasi</h4>
-                    <div class="grid video-grid">
-                        <div class="card">
-                            <div class="card-icon">
-                                <i class="fas fa-video"></i>
-                            </div>
-                            <div class="dokumentasi-preview">
-                                <img src="https://lh3.googleusercontent.com/d/1Zcac54pXy4DkyYEVR3ELUKOTo5A7Nb_R" alt="Video 1" class="dokumentasi-thumbnail">
-                            </div>
-                            <h3 class="card-title">Video 1</h3>
-                            <p class="card-description">Video dokumentasi landscape</p>
-                            <div class="card-actions">
-                                <a href="https://drive.google.com/file/d/1Zcac54pXy4DkyYEVR3ELUKOTo5A7Nb_R/view?usp=sharing" target="_blank" class="card-link preview-btn">
-                                    <i class="fas fa-eye"></i> Preview
-                                </a>
-                                <a href="https://drive.google.com/uc?export=download&id=1Zcac54pXy4DkyYEVR3ELUKOTo5A7Nb_R" class="card-link download-btn">
-                                    <i class="fas fa-download"></i> Download
-                                </a>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-icon">
-                                <i class="fas fa-video"></i>
-                            </div>
-                            <div class="dokumentasi-preview">
-                                <img src="https://lh3.googleusercontent.com/d/19G8WOoFRRrlV6iHwEDgsYhP7M-Wq0ONe" alt="Video 2" class="dokumentasi-thumbnail">
-                            </div>
-                            <h3 class="card-title">Video 2</h3>
-                            <p class="card-description">Video dokumentasi landscape</p>
-                            <div class="card-actions">
-                                <a href="https://drive.google.com/file/d/19G8WOoFRRrlV6iHwEDgsYhP7M-Wq0ONe/view?usp=sharing" target="_blank" class="card-link preview-btn">
-                                    <i class="fas fa-eye"></i> Preview
-                                </a>
-                                <a href="https://drive.google.com/uc?export=download&id=19G8WOoFRRrlV6iHwEDgsYhP7M-Wq0ONe" class="card-link download-btn">
-                                    <i class="fas fa-download"></i> Download
-                                </a>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-icon">
-                                <i class="fas fa-video"></i>
-                            </div>
-                            <div class="dokumentasi-preview">
-                                <img src="https://lh3.googleusercontent.com/d/1W8plwJDNPy6GMJtqzAVuq1pZ3fnxe0A-" alt="Video 3" class="dokumentasi-thumbnail">
-                            </div>
-                            <h3 class="card-title">Video 3</h3>
-                            <p class="card-description">Video dokumentasi landscape</p>
-                            <div class="card-actions">
-                                <a href="https://drive.google.com/file/d/1W8plwJDNPy6GMJtqzAVuq1pZ3fnxe0A-/view?usp=sharing" target="_blank" class="card-link preview-btn">
-                                    <i class="fas fa-eye"></i> Preview
-                                </a>
-                                <a href="https://drive.google.com/uc?export=download&id=1W8plwJDNPy6GMJtqzAVuq1pZ3fnxe0A-" class="card-link download-btn">
-                                    <i class="fas fa-download"></i> Download
-                                </a>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-icon">
-                                <i class="fas fa-video"></i>
-                            </div>
-                            <div class="dokumentasi-preview">
-                                <img src="https://lh3.googleusercontent.com/d/1jBFwJEUEaj976Qi2g5fSoRo8CdmPG0wh" alt="Video 4" class="dokumentasi-thumbnail">
-                            </div>
-                            <h3 class="card-title">Video 4</h3>
-                            <p class="card-description">Video dokumentasi landscape</p>
-                            <div class="card-actions">
-                                <a href="https://drive.google.com/file/d/1jBFwJEUEaj976Qi2g5fSoRo8CdmPG0wh/view?usp=sharing" target="_blank" class="card-link preview-btn">
-                                    <i class="fas fa-eye"></i> Preview
-                                </a>
-                                <a href="https://drive.google.com/uc?export=download&id=1jBFwJEUEaj976Qi2g5fSoRo8CdmPG0wh" class="card-link download-btn">
-                                    <i class="fas fa-download"></i> Download
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <div id="hudContainer">
+        <div>❤️ HP: <span id="hp" style="color: #ff4444;">200</span></div>
+        <div>🚪 Ruang: <span id="room" style="color: #ff69b4;">1</span>/5</div>
+        <div>🔑 Kunci: <span id="keys" style="color: #ffd700;">0</span>/5</div>
+        <div>⏱️ Waktu: <span id="time" style="color: #00ffff;">00:00</span></div>
+    </div>
+    
+    <div id="gameContainer">
+        <canvas id="gameCanvas" width="900" height="650"></canvas>
         
-        <!-- Analisis Artefak Pembelajaran -->
-        <section id="analisis-artefak" class="section">
-            <div class="container">
-                <div class="section-header">
-                    <h2 class="section-title">Analisis Artefak Pembelajaran</h2>
-                    <p class="section-subtitle">
-                        Refleksi terhadap perangkat pembelajaran yang telah disusun dan diimplementasikan selama Program Pendidikan Profesi Guru (PPG).
-                    </p>
-                </div>
+        <div id="notification"></div>
 
-                <div class="analysis-grid">
-
-                    <div class="analysis-card">
-                        <div class="analysis-number">01</div>
-                        <h3>Kendala Penyusunan Produk Pembelajaran</h3>
-                        <p>
-                            Dalam proses penyusunan perangkat pembelajaran, tantangan utama yang dihadapi adalah menyesuaikan materi dan aktivitas belajar dengan karakteristik peserta didik yang beragam. Selain itu, integrasi teknologi digital dalam pembelajaran serta penyusunan instrumen asesmen yang mampu mengukur kompetensi secara menyeluruh memerlukan perencanaan yang matang. Beberapa perangkat juga mengalami revisi berdasarkan hasil refleksi dan masukan dari guru pamong maupun dosen pembimbing.
-                        </p>
-                    </div>
-
-                    <div class="analysis-card">
-                        <div class="analysis-number">02</div>
-                        <h3>Teori dan Konsep Pedagogi yang Diadopsi</h3>
-                        <p>
-                            Penyusunan perangkat pembelajaran mengadopsi pendekatan Student-Centered Learning yang menempatkan peserta didik sebagai pusat pembelajaran. Selain itu diterapkan prinsip Pembelajaran Berdiferensiasi, Project Based Learning (PjBL), Problem Based Learning (PBL), serta asesmen formatif berkelanjutan. Pendekatan tersebut bertujuan menciptakan pengalaman belajar yang aktif, bermakna, kolaboratif, dan relevan dengan kebutuhan peserta didik abad ke-21.
-                        </p>
-                    </div>
-
-                    <div class="analysis-card">
-                        <div class="analysis-number">03</div>
-                        <h3>Faktor Keberhasilan Implementasi</h3>
-                        <p>
-                            Keberhasilan implementasi perangkat pembelajaran didukung oleh perencanaan yang sistematis, penggunaan media pembelajaran yang menarik, keterlibatan aktif peserta didik, serta pelaksanaan asesmen formatif secara berkala. Dukungan guru pamong, lingkungan sekolah yang kondusif, dan refleksi berkelanjutan terhadap proses pembelajaran juga menjadi faktor penting dalam mencapai tujuan pembelajaran yang telah ditetapkan.
-                        </p>
-                    </div>
-
-                    <div class="analysis-card">
-                        <div class="analysis-number">04</div>
-                        <h3>Penyesuaian untuk Situasi Kelas yang Berbeda</h3>
-                        <p>
-                            Perangkat pembelajaran yang disusun bersifat fleksibel dan dapat disesuaikan dengan kondisi kelas yang berbeda. Penyesuaian dapat dilakukan pada metode pembelajaran, media yang digunakan, bentuk asesmen, tingkat kompleksitas tugas, maupun alokasi waktu pembelajaran. Dengan demikian, perangkat pembelajaran tetap relevan dan efektif diterapkan sesuai kebutuhan peserta didik dan karakteristik lingkungan belajar.
-                        </p>
-                    </div>
-
-                </div>
-            </div>
-        </section>
-
-        <!-- Refleksi Section -->
-        <section id="refleksi" class="section">
-            <div class="container">
-                <div class="section-header">
-                    <h2 class="section-title">Refleksi</h2>
-                    <p class="section-subtitle">Pemikiran dan evaluasi selama mengikuti program PPG</p>
-                </div>
-                <div class="reflection-container">
-                    <div class="reflection-card">
-                        <h3 class="reflection-title">Refleksi Perjalanan PPG</h3>
-                        <div class="reflection-content">
-                            <p class="reflection-text">
-                                Selama mengikuti Program Profesi Guru (PPG) di Universitas Negeri Yogyakarta, saya Ammar Al Hakim Asshiddiqi telah mengalami banyak pembelajaran berharga yang membentuk saya sebagai calon pendidik profesional. Perjalanan ini tidak hanya memberikan saya pengetahuan akademik, tetapi juga mengubah perspektif saya tentang arti sebenarnya menjadi seorang guru.
-                            </p>
-                            <h4 class="reflection-subtitle">Pembelajaran Pedagogis</h4>
-                            <p class="reflection-text">
-                                Modul-modul yang telah dipelajari memberikan dasar yang kuat dalam pemahaman teori pembelajaran modern. Saya belajar tentang berbagai pendekatan pembelajaran, strategi pengajaran yang efektif, dan pentingnya memahami karakteristik peserta didik. Materi-materi ini membuka wawasan saya bahwa mengajar bukan hanya sekadar mentransfer ilmu, tetapi seni membangun karakter dan menginspirasi generasi muda.
-                            </p>
-                            <h4 class="reflection-subtitle">Pengembangan Bahan Ajar</h4>
-                            <p class="reflection-text">
-                                Proses mengembangkan bahan ajar dan media pembelajaran telah melatih kreativitas dan kemampuan teknis saya. Sebagai calon guru Informatika, saya menyadari pentingnya mengintegrasikan teknologi dalam pembelajaran untuk membuat materi lebih menarik dan relevan dengan kebutuhan siswa di era digital. Setiap bahan ajar yang saya buat menjadi kesempatan untuk menerapkan prinsip-prinsip pembelajaran yang telah dipelajari.
-                            </p>
-                            <h4 class="reflection-subtitle">Evaluasi dan Asessmen</h4>
-                            <p class="reflection-text">
-                                Pembuatan instrumen penilaian mengajarkan saya tentang pentingnya evaluasi yang komprehensif dan adil. Saya belajar bahwa asessmen bukan hanya tentang memberikan nilai, tetapi tentang memahami progres belajar siswa, mengidentifikasi area yang perlu diperbaiki, dan memberikan umpan balik yang konstruktif untuk pengembangan peserta didik.
-                            </p>
-                            <h4 class="reflection-subtitle">Tantangan dan Pertumbuhan</h4>
-                            <p class="reflection-text">
-                                Sepanjang perjalanan ini, saya menghadapi berbagai tantangan yang memaksa saya keluar dari zona nyaman. Dari kesulitan awal dalam memahami konsep pedagogis hingga tantangan dalam mengembangkan materi yang sesuai dengan kebutuhan siswa, setiap hambatan menjadi pelajaran berharga. Proses ini mengajarkan saya ketahanan, adaptabilitas, dan pentingnya terus belajar dan berkembang.
-                            </p>
-                            <h4 class="reflection-subtitle">Visi Masa Depan</h4>
-                            <p class="reflection-text">
-                                PPG telah membekali saya dengan fondasi yang kuat untuk menjadi guru Informatika yang kompeten dan inspiratif. Visi saya adalah menciptakan lingkungan belajar yang tidak hanya mengembangkan kemampuan teknis siswa, tetapi juga membangun karakter, kreativitas, dan kemampuan berpikir kritis. Saya berkomitmen untuk terus mengembangkan diri dan berkontribusi pada kemajuan pendidikan di Indonesia.
-                            </p>
-                            <div class="reflection-footer">
-                                <p><strong>Ammar Al Hakim Asshiddiqi</strong></p>
-                                <p>Mahasiswa PPG Informatika</p>
-                                <p>Universitas Negeri Yogyakarta</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Kontak Section -->
-        <section id="kontak" class="section section-alt">
-            <div class="container">
-                <div class="section-header">
-                    <h2 class="section-title">Kontak</h2>
-                    <p class="section-subtitle">Hubungi saya melalui berbagai platform</p>
-                </div>
-                <div class="contact-container">
-                    <div class="contact-card">
-                        <div class="contact-info">
-                            <h3 class="contact-title">Informasi Kontak</h3>
-                            <div class="contact-details">
-                                <div class="contact-item">
-                                    <i class="fas fa-envelope"></i>
-                                    <div class="contact-text">
-                                        <strong>Email:</strong>
-                                        <a href="mailto:ammaral.2025@student.uny.ac.id">ammaral.2025@student.uny.ac.id</a>
-                                    </div>
-                                </div>
-                                <div class="contact-item">
-                                    <i class="fab fa-instagram"></i>
-                                    <div class="contact-text">
-                                        <strong>Instagram:</strong>
-                                        <a href="https://instagram.com/ammaral16_" target="_blank">@ammaral16_</a>
-                                    </div>
-                                </div>
-                                <div class="contact-item">
-                                    <i class="fab fa-linkedin"></i>
-                                    <div class="contact-text">
-                                        <strong>LinkedIn:</strong>
-                                        <a href="https://linkedin.com/in/ammaralhakim" target="_blank">linkedin.com/in/ammaralhakim</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="contact-form">
-                            <h3 class="contact-title">Kirim Pesan</h3>
-                            <form class="form">
-                                <div class="form-group">
-                                    <label for="name">Nama</label>
-                                    <input type="text" id="name" name="name" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="email">Email</label>
-                                    <input type="email" id="email" name="email" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="message">Pesan</label>
-                                    <textarea id="message" name="message" rows="5" required></textarea>
-                                </div>
-                                <button type="submit" class="btn btn-primary">Kirim Pesan</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-info">
-                    <h3>E-Portfolio Ammar Al Hakim Asshiddiqi</h3>
-                    <p>Program Profesi Guru Informatika</p>
-                    <p>Universitas Negeri Yogyakarta</p>
-                </div>
-                <div class="footer-contact">
-                    <h4>Kontak</h4>
-                    <p><i class="fas fa-envelope"></i> ammaral.2025@student.uny.ac.id</p>
-                    <p><i class="fas fa-phone"></i> +6289527144561</p>
-                </div>
-                <div class="footer-social">
-                    <h4>Ikuti Saya</h4>
-                    <div class="social-links">
-                        <a href="https://linkedin.com/in/ammaralhakim" target="_blank" class="social-link"><i class="fab fa-linkedin"></i></a>
-                        <a href="https://instagram.com/ammaral16_" target="_blank" class="social-link"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-github"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 E-Portfolio Ammar Al Hakim Asshiddiqi. All rights reserved.</p>
-            </div>
+        <div id="puzzleUI">
+            <div id="puzzleQuestion"></div>
+            <div id="puzzleOptions"></div>
         </div>
-    </footer>
 
-    <script src="script.js"></script>
+        <div id="congratsScreen">
+            <h2 id="congratsTitle">🎉 SELAMAT! 🎉</h2>
+            <p id="congratsMessage">Kamu telah menyelesaikan semua 5 ruangan!</p>
+            <div id="congratsStats"></div>
+            <button class="menuButton" onclick="startCamera()">📸 Ambil Foto Selfie</button>
+            <button class="menuButton" onclick="skipCamera()">⏭️ Lewati Foto</button>
+        </div>
+
+        <div id="titleScreen">
+            <h1 id="gameTitle">Kronik Sang Penjelajah</h1>
+            <p id="gameSubtitle">Misteri Artefak Waktu</p>
+            <button class="menuButton" onclick="startGame()">🎮 Mulai Petualangan</button>
+            <button class="menuButton" onclick="showGallery()">🖼️ Galeri Foto</button>
+        </div>
+
+        <div id="cameraScreen">
+            <h2 style="color: #ffd700; margin-bottom: 25px; font-size: 28px;">📸 Ambil Selfie!</h2>
+            <video id="video" autoplay playsinline></video>
+            <canvas id="canvasPhoto" style="display: none;"></canvas>
+            <button id="captureButton" onclick="capturePhoto()">📸 Ambil Foto</button>
+            <p style="color: #a0a0c0; margin-top: 15px; font-size: 18px;">Selamat! Kamu telah menyelesaikan semua tantangan!</p>
+        </div>
+
+        <div id="galleryScreen">
+            <h2 style="color: #ffd700; margin-bottom: 25px; font-size: 28px;">🖼️ Galeri Foto Pemenang</h2>
+            <div id="galleryGrid"></div>
+            <p id="galleryMessage" style="color: #e0e0ff; font-size: 18px;"></p>
+            <button class="menuButton" onclick="hideGallery()" style="margin-top: 25px;">❌ Tutup Galeri</button>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        let player = { x: 450, y: 325, hp: 200, maxHp: 200, speed: 5 };
+        let currentRoom = 1;
+        let keysCollected = 0;
+        let roomCleared = false;
+        let puzzleAnswered = false;
+        let gameStarted = false;
+        let keys = {};
+        let timeElapsed = 0;
+        let timerInterval;
+        let particles = [];
+        let lastDamageTime = 0;
+        
+        const roomData = {
+            1: {
+                name: "Museum",
+                theme: { bg: '#1a1a3a', wall: '#2a2a4a', floor: '#252545' },
+                npc: { x: 100, y: 100 },
+                key: { x: 750, y: 500 },
+                door: { x: 850, y: 325 },
+                heal: { x: 450, y: 550, healAmount: 50, collected: false, uses: 0, maxUses: 2 },
+                obstacles: [
+                    { x: 300, y: 200, w: 80, h: 80 },
+                    { x: 550, y: 350, w: 100, h: 60 },
+                    { x: 400, y: 450, w: 120, h: 50 }
+                ],
+                traps: [
+                    { x: 350, y: 280, w: 45, h: 45, damage: 10 },
+                    { x: 500, y: 200, w: 45, h: 45, damage: 10 },
+                    { x: 450, y: 380, w: 45, h: 45, damage: 10 },
+                    { x: 600, y: 450, w: 45, h: 45, damage: 10 }
+                ],
+                enemies: [
+                    { x: 250, y: 400, w: 35, h: 35, speed: 1.5, damage: 15, patrol: true, points: [{x: 150, y: 400}, {x: 350, y: 400}], current: 0 }
+                ],
+                question: "Siapa proklamator Indonesia?",
+                options: ["Soekarno", "Hatta", "Soekarno & Hatta", "Sjahrir"],
+                correct: 2
+            },
+            2: {
+                name: "Arsip Kuno",
+                theme: { bg: '#1a2a1a', wall: '#2a4a2a', floor: '#253525' },
+                npc: { x: 750, y: 150 },
+                key: { x: 150, y: 500 },
+                door: { x: 850, y: 325 },
+                heal: { x: 450, y: 100, healAmount: 60, collected: false, uses: 0, maxUses: 2 },
+                obstacles: [
+                    { x: 250, y: 250, w: 70, h: 70 },
+                    { x: 450, y: 350, w: 90, h: 50 },
+                    { x: 600, y: 200, w: 80, h: 80 }
+                ],
+                traps: [
+                    { x: 300, y: 300, w: 45, h: 45, damage: 15 },
+                    { x: 500, y: 250, w: 45, h: 45, damage: 15 },
+                    { x: 400, y: 400, w: 45, h: 45, damage: 15 },
+                    { x: 550, y: 350, w: 45, h: 45, damage: 15 },
+                    { x: 350, y: 180, w: 45, h: 45, damage: 15 }
+                ],
+                enemies: [
+                    { x: 300, y: 350, w: 35, h: 35, speed: 1.8, damage: 20, patrol: true, points: [{x: 200, y: 350}, {x: 400, y: 350}], current: 0 },
+                    { x: 500, y: 250, w: 35, h: 35, speed: 1.8, damage: 20, patrol: true, points: [{x: 400, y: 250}, {x: 600, y: 250}], current: 0 }
+                ],
+                question: "Siapa menjahit bendera Merah Putih?",
+                options: ["Fatmawati", "Kartini", "Dewi Sartika", "R.A. Kartini"],
+                correct: 0
+            },
+            3: {
+                name: "Perpustakaan",
+                theme: { bg: '#2a1a1a', wall: '#4a2a2a', floor: '#352525' },
+                npc: { x: 450, y: 100 },
+                key: { x: 200, y: 550 },
+                door: { x: 850, y: 325 },
+                heal: { x: 750, y: 500, healAmount: 70, collected: false, uses: 0, maxUses: 2 },
+                obstacles: [
+                    { x: 300, y: 280, w: 80, h: 80 },
+                    { x: 500, y: 200, w: 90, h: 60 },
+                    { x: 400, y: 400, w: 100, h: 50 }
+                ],
+                traps: [
+                    { x: 350, y: 330, w: 45, h: 45, damage: 20 },
+                    { x: 450, y: 250, w: 45, h: 45, damage: 20 },
+                    { x: 550, y: 350, w: 45, h: 45, damage: 20 },
+                    { x: 300, y: 420, w: 45, h: 45, damage: 20 },
+                    { x: 500, y: 450, w: 45, h: 45, damage: 20 },
+                    { x: 400, y: 180, w: 45, h: 45, damage: 20 }
+                ],
+                enemies: [
+                    { x: 350, y: 400, w: 35, h: 35, speed: 2, damage: 25, chase: true },
+                    { x: 550, y: 250, w: 35, h: 35, speed: 2, damage: 25, chase: true }
+                ],
+                question: "Peristiwa Rengasdengklok terjadi saat?",
+                options: ["Sebelum proklamasi", "Sesudah proklamasi", "Waktu proklamasi", "Setelah kemerdekaan"],
+                correct: 0
+            },
+            4: {
+                name: "Aula Besar",
+                theme: { bg: '#1a1a2a', wall: '#2a2a4a', floor: '#252535' },
+                npc: { x: 200, y: 550 },
+                key: { x: 700, y: 100 },
+                door: { x: 850, y: 325 },
+                heal: { x: 150, y: 200, healAmount: 80, collected: false, uses: 0, maxUses: 2 },
+                obstacles: [
+                    { x: 280, y: 220, w: 90, h: 70 },
+                    { x: 520, y: 320, w: 100, h: 60 },
+                    { x: 380, y: 420, w: 110, h: 50 },
+                    { x: 620, y: 180, w: 70, h: 70 }
+                ],
+                traps: [
+                    { x: 330, y: 280, w: 45, h: 45, damage: 25 },
+                    { x: 470, y: 220, w: 45, h: 45, damage: 25 },
+                    { x: 570, y: 350, w: 45, h: 45, damage: 25 },
+                    { x: 420, y: 450, w: 45, h: 45, damage: 25 },
+                    { x: 320, y: 380, w: 45, h: 45, damage: 25 },
+                    { x: 520, y: 480, w: 45, h: 45, damage: 25 },
+                    { x: 370, y: 160, w: 45, h: 45, damage: 25 }
+                ],
+                enemies: [
+                    { x: 300, y: 350, w: 35, h: 35, speed: 2.2, damage: 30, chase: true },
+                    { x: 500, y: 280, w: 35, h: 35, speed: 2.2, damage: 30, chase: true },
+                    { x: 400, y: 420, w: 35, h: 35, speed: 2.2, damage: 30, patrol: true, points: [{x: 300, y: 420}, {x: 500, y: 420}], current: 0 }
+                ],
+                question: "Di rumah siapa teks proklamasi ditulis?",
+                options: ["Soekarno", "Hatta", "Maeda", "Sjahrir"],
+                correct: 2
+            },
+            5: {
+                name: "Ruang Khusus",
+                theme: { bg: '#0a0a1a', wall: '#1a1a3a', floor: '#151525' },
+                npc: { x: 700, y: 550 },
+                key: { x: 200, y: 100 },
+                door: null,
+                heal: { x: 450, y: 325, healAmount: 100, collected: false, uses: 0, maxUses: 2 },
+                obstacles: [
+                    { x: 280, y: 200, w: 100, h: 80 },
+                    { x: 520, y: 300, w: 110, h: 70 },
+                    { x: 350, y: 420, w: 120, h: 60 },
+                    { x: 600, y: 180, w: 80, h: 80 },
+                    { x: 200, y: 350, w: 70, h: 70 }
+                ],
+                traps: [
+                    { x: 330, y: 250, w: 45, h: 45, damage: 30 },
+                    { x: 470, y: 200, w: 45, h: 45, damage: 30 },
+                    { x: 570, y: 350, w: 45, h: 45, damage: 30 },
+                    { x: 420, y: 450, w: 45, h: 45, damage: 30 },
+                    { x: 300, y: 380, w: 45, h: 45, damage: 30 },
+                    { x: 520, y: 480, w: 45, h: 45, damage: 30 },
+                    { x: 370, y: 160, w: 45, h: 45, damage: 30 },
+                    { x: 250, y: 300, w: 45, h: 45, damage: 30 },
+                    { x: 620, y: 400, w: 45, h: 45, damage: 30 }
+                ],
+                enemies: [
+                    { x: 300, y: 300, w: 35, h: 35, speed: 2.5, damage: 35, chase: true },
+                    { x: 500, y: 350, w: 35, h: 35, speed: 2.5, damage: 35, chase: true },
+                    { x: 400, y: 450, w: 35, h: 35, speed: 2.5, damage: 35, chase: true }
+                ],
+                question: "Siapa ketua PPKI pertama?",
+                options: ["Soekarno", "Hatta", "Radjiman Wedyodiningrat", "Sjahrir"],
+                correct: 2
+            }
+        };
+        
+        document.addEventListener('keydown', (e) => {
+            keys[e.key.toLowerCase()] = true;
+            if (e.key === 'e' && gameStarted) checkInteraction();
+        });
+        
+        document.addEventListener('keyup', (e) => {
+            keys[e.key.toLowerCase()] = false;
+        });
+        
+        function startGame() {
+            document.getElementById('titleScreen').classList.add('hidden');
+            document.getElementById('hudContainer').classList.add('active');
+            gameStarted = true;
+            currentRoom = 1;
+            keysCollected = 0;
+            roomCleared = false;
+            puzzleAnswered = false;
+            player.hp = 200;
+            player.x = 450;
+            player.y = 325;
+            timeElapsed = 0;
+            particles = [];
+            
+            // Reset heal collected status and uses
+            for (let i = 1; i <= 5; i++) {
+                if (roomData[i].heal) {
+                    roomData[i].heal.collected = false;
+                    roomData[i].heal.uses = 0;
+                }
+            }
+            
+            clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                timeElapsed++;
+                updateTime();
+            }, 1000);
+            
+            showNotification("Gunakan WASD untuk gerak, E untuk interaksi!");
+            updateHUD();
+        }
+        
+        function updateTime() {
+            const mins = Math.floor(timeElapsed / 60);
+            const secs = timeElapsed % 60;
+            document.getElementById('time').textContent = 
+                `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+        
+        function update() {
+            if (!gameStarted) return;
+            
+            let newX = player.x;
+            let newY = player.y;
+            
+            if (keys['w'] || keys['arrowup']) newY -= player.speed;
+            if (keys['s'] || keys['arrowdown']) newY += player.speed;
+            if (keys['a'] || keys['arrowleft']) newX -= player.speed;
+            if (keys['d'] || keys['arrowright']) newX += player.speed;
+            
+            newX = Math.max(25, Math.min(875, newX));
+            newY = Math.max(25, Math.min(625, newY));
+            
+            const room = roomData[currentRoom];
+            let canMove = true;
+            
+            for (const obs of room.obstacles) {
+                if (newX > obs.x && newX < obs.x + obs.w &&
+                    newY > obs.y && newY < obs.y + obs.h) {
+                    canMove = false;
+                }
+            }
+            
+            if (canMove) {
+                player.x = newX;
+                player.y = newY;
+            }
+            
+            // Update enemies
+            if (room.enemies) {
+                for (const enemy of room.enemies) {
+                    if (enemy.patrol) {
+                        const target = enemy.points[enemy.current];
+                        const dx = target.x - enemy.x;
+                        const dy = target.y - enemy.y;
+                        const dist = Math.sqrt(dx*dx + dy*dy);
+                        
+                        if (dist < 5) {
+                            enemy.current = (enemy.current + 1) % enemy.points.length;
+                        } else {
+                            enemy.x += (dx/dist) * enemy.speed;
+                            enemy.y += (dy/dist) * enemy.speed;
+                        }
+                    } else if (enemy.chase) {
+                        const dx = player.x - enemy.x;
+                        const dy = player.y - enemy.y;
+                        const dist = Math.sqrt(dx*dx + dy*dy);
+                        
+                        if (dist < 250) {
+                            enemy.x += (dx/dist) * enemy.speed;
+                            enemy.y += (dy/dist) * enemy.speed;
+                        }
+                    }
+                    
+                    // Check enemy collision
+                    const enemyDist = Math.sqrt((player.x - enemy.x)**2 + (player.y - enemy.y)**2);
+                    if (enemyDist < 35) {
+                        const now = Date.now();
+                        if (now - lastDamageTime > 1000) {
+                            player.hp -= enemy.damage;
+                            lastDamageTime = now;
+                            showNotification(`Diserang musuh! -${enemy.damage} HP`, true);
+                            updateHUD();
+                            createParticles(player.x, player.y, '#ff0000', 10);
+                            
+                            if (player.hp <= 0) {
+                                player.hp = 0;
+                                gameStarted = false;
+                                clearInterval(timerInterval);
+                                document.getElementById('hudContainer').classList.remove('active');
+                                alert("GAME OVER - HP habis!");
+                                document.getElementById('titleScreen').classList.remove('hidden');
+                            }
+                        }
+                    }
+                }
+            }
+            
+            // Check traps
+            for (const trap of room.traps) {
+                if (player.x > trap.x && player.x < trap.x + trap.w &&
+                    player.y > trap.y && player.y < trap.y + trap.h) {
+                    const now = Date.now();
+                    if (now - lastDamageTime > 500) {
+                        player.hp -= trap.damage;
+                        lastDamageTime = now;
+                        showNotification(`Terkena trap! -${trap.damage} HP`, true);
+                        updateHUD();
+                        createParticles(player.x, player.y, '#ff4444', 8);
+                        
+                        if (player.hp <= 0) {
+                            player.hp = 0;
+                            gameStarted = false;
+                            clearInterval(timerInterval);
+                            document.getElementById('hudContainer').classList.remove('active');
+                            alert("GAME OVER - HP habis!");
+                            document.getElementById('titleScreen').classList.remove('hidden');
+                        }
+                    }
+                }
+            }
+            
+            // Update particles
+            particles = particles.filter(p => p.life > 0);
+            particles.forEach(p => {
+                p.x += p.vx;
+                p.y += p.vy;
+                p.life--;
+                p.alpha -= 0.02;
+            });
+        }
+        
+        function createParticles(x, y, color, count) {
+            for (let i = 0; i < count; i++) {
+                particles.push({
+                    x: x,
+                    y: y,
+                    vx: (Math.random() - 0.5) * 8,
+                    vy: (Math.random() - 0.5) * 8,
+                    life: 30,
+                    alpha: 1,
+                    color: color
+                });
+            }
+        }
+        
+        function draw() {
+            ctx.fillStyle = '#0f0f23';
+            ctx.fillRect(0, 0, 900, 650);
+            
+            if (!gameStarted) {
+                drawTitleBackground();
+                return;
+            }
+            
+            const room = roomData[currentRoom];
+            const theme = room.theme;
+            
+            // Draw floor
+            ctx.fillStyle = theme.bg;
+            ctx.fillRect(0, 0, 900, 650);
+            
+            // Draw floor tiles
+            ctx.fillStyle = theme.floor;
+            for (let x = 50; x < 850; x += 100) {
+                for (let y = 50; y < 600; y += 100) {
+                    ctx.fillRect(x, y, 90, 90);
+                }
+            }
+            
+            // Draw walls
+            ctx.fillStyle = theme.wall;
+            ctx.fillRect(0, 0, 900, 40);
+            ctx.fillRect(0, 610, 900, 40);
+            ctx.fillRect(0, 0, 40, 650);
+            ctx.fillRect(860, 0, 40, 650);
+            
+            // Draw obstacles with 3D effect
+            for (const obs of room.obstacles) {
+                ctx.fillStyle = '#4a4a6a';
+                ctx.fillRect(obs.x, obs.y, obs.w, obs.h);
+                ctx.fillStyle = '#5a5a7a';
+                ctx.fillRect(obs.x, obs.y, obs.w, obs.h - 5);
+                ctx.fillStyle = '#3a3a5a';
+                ctx.fillRect(obs.x + obs.w - 5, obs.y, 5, obs.h);
+            }
+            
+            // Draw traps with glow
+            for (const trap of room.traps) {
+                ctx.fillStyle = 'rgba(255, 68, 68, 0.3)';
+                ctx.beginPath();
+                ctx.arc(trap.x + trap.w/2, trap.y + trap.h/2, 30, 0, Math.PI * 2);
+                ctx.fill();
+                
+                ctx.fillStyle = '#ff4444';
+                ctx.fillRect(trap.x, trap.y, trap.w, trap.h);
+                ctx.fillStyle = '#ff6666';
+                ctx.fillRect(trap.x + 5, trap.y + 5, trap.w - 10, trap.h - 10);
+            }
+            
+            // Draw enemies
+            if (room.enemies) {
+                for (const enemy of room.enemies) {
+                    // Shadow
+                    ctx.fillStyle = 'rgba(0,0,0,0.3)';
+                    ctx.beginPath();
+                    ctx.ellipse(enemy.x, enemy.y + 20, 20, 10, 0, 0, Math.PI * 2);
+                    ctx.fill();
+                    
+                    // Body
+                    ctx.fillStyle = '#8b0000';
+                    ctx.beginPath();
+                    ctx.arc(enemy.x, enemy.y, 20, 0, Math.PI * 2);
+                    ctx.fill();
+                    
+                    ctx.fillStyle = '#ff0000';
+                    ctx.beginPath();
+                    ctx.arc(enemy.x, enemy.y, 15, 0, Math.PI * 2);
+                    ctx.fill();
+                    
+                    // Eyes
+                    ctx.fillStyle = '#ffffff';
+                    ctx.beginPath();
+                    ctx.arc(enemy.x - 6, enemy.y - 4, 5, 0, Math.PI * 2);
+                    ctx.arc(enemy.x + 6, enemy.y - 4, 5, 0, Math.PI * 2);
+                    ctx.fill();
+                    
+                    ctx.fillStyle = '#000000';
+                    ctx.beginPath();
+                    ctx.arc(enemy.x - 6, enemy.y - 4, 2, 0, Math.PI * 2);
+                    ctx.arc(enemy.x + 6, enemy.y - 4, 2, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+            
+            // Draw NPC with better design
+            ctx.fillStyle = 'rgba(0,0,0,0.3)';
+            ctx.beginPath();
+            ctx.ellipse(room.npc.x, room.npc.y + 20, 22, 12, 0, 0, Math.PI * 2);
+            ctx.fill();
+            
+            ctx.fillStyle = '#6a8a6a';
+            ctx.beginPath();
+            ctx.arc(room.npc.x, room.npc.y, 22, 0, Math.PI * 2);
+            ctx.fill();
+            
+            ctx.fillStyle = '#ffcc99';
+            ctx.beginPath();
+            ctx.arc(room.npc.x, room.npc.y, 16, 0, Math.PI * 2);
+            ctx.fill();
+            
+            ctx.fillStyle = '#000000';
+            ctx.beginPath();
+            ctx.arc(room.npc.x - 6, room.npc.y - 4, 4, 0, Math.PI * 2);
+            ctx.arc(room.npc.x + 6, room.npc.y - 4, 4, 0, Math.PI * 2);
+            ctx.fill();
+            
+            ctx.fillStyle = '#4a2a2a';
+            ctx.fillRect(room.npc.x - 18, room.npc.y - 22, 36, 10);
+            
+            // Draw key with glow
+            if (puzzleAnswered && !roomCleared && room.key) {
+                ctx.fillStyle = 'rgba(255, 215, 0, 0.4)';
+                ctx.beginPath();
+                ctx.arc(room.key.x, room.key.y, 25, 0, Math.PI * 2);
+                ctx.fill();
+                
+                ctx.fillStyle = '#ffd700';
+                ctx.fillRect(room.key.x - 12, room.key.y - 6, 24, 12);
+                ctx.fillRect(room.key.x + 12, room.key.y - 10, 8, 20);
+                ctx.fillRect(room.key.x + 20, room.key.y - 4, 8, 8);
+            }
+            
+            // Draw heal item
+            if (room.heal && room.heal.uses < room.heal.maxUses) {
+                ctx.fillStyle = 'rgba(0, 255, 0, 0.4)';
+                ctx.beginPath();
+                ctx.arc(room.heal.x, room.heal.y, 25, 0, Math.PI * 2);
+                ctx.fill();
+                
+                ctx.fillStyle = '#00ff00';
+                ctx.beginPath();
+                ctx.arc(room.heal.x, room.heal.y, 18, 0, Math.PI * 2);
+                ctx.fill();
+                
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(room.heal.x - 4, room.heal.y - 12, 8, 24);
+                ctx.fillRect(room.heal.x - 12, room.heal.y - 4, 24, 8);
+                
+                // Show uses remaining
+                ctx.fillStyle = '#ffffff';
+                ctx.font = '12px Segoe UI';
+                ctx.textAlign = 'center';
+                ctx.fillText(`${room.heal.maxUses - room.heal.uses}/${room.heal.maxUses}`, room.heal.x, room.heal.y + 35);
+            }
+            
+            // Draw door
+            if (room.door) {
+                if (roomCleared) {
+                    ctx.fillStyle = 'rgba(148, 0, 211, 0.3)';
+                    ctx.beginPath();
+                    ctx.arc(room.door.x, room.door.y, 35, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.fillStyle = '#9400d3';
+                } else {
+                    ctx.fillStyle = '#8b4513';
+                }
+                ctx.fillRect(room.door.x - 25, room.door.y - 35, 50, 70);
+                
+                if (!roomCleared) {
+                    ctx.fillStyle = '#ffd700';
+                    ctx.fillRect(room.door.x - 8, room.door.y - 8, 16, 16);
+                }
+            }
+            
+            // Draw player with better design
+            ctx.fillStyle = 'rgba(0,0,0,0.3)';
+            ctx.beginPath();
+            ctx.ellipse(player.x, player.y + 20, 22, 12, 0, 0, Math.PI * 2);
+            ctx.fill();
+            
+            ctx.fillStyle = '#4a7a4a';
+            ctx.beginPath();
+            ctx.arc(player.x, player.y, 22, 0, Math.PI * 2);
+            ctx.fill();
+            
+            ctx.fillStyle = '#ffcc99';
+            ctx.beginPath();
+            ctx.arc(player.x, player.y, 16, 0, Math.PI * 2);
+            ctx.fill();
+            
+            ctx.fillStyle = '#000000';
+            ctx.beginPath();
+            ctx.arc(player.x - 6, player.y - 4, 4, 0, Math.PI * 2);
+            ctx.arc(player.x + 6, player.y - 4, 4, 0, Math.PI * 2);
+            ctx.fill();
+            
+            ctx.fillStyle = '#4a3a2a';
+            ctx.fillRect(player.x - 18, player.y - 22, 36, 10);
+            
+            // Draw particles
+            particles.forEach(p => {
+                ctx.fillStyle = p.color;
+                ctx.globalAlpha = p.alpha;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, 4, 0, Math.PI * 2);
+                ctx.fill();
+            });
+            ctx.globalAlpha = 1;
+            
+            // Draw room info
+            ctx.fillStyle = 'white';
+            ctx.font = 'bold 24px Segoe UI';
+            ctx.textAlign = 'center';
+            ctx.fillText(`Ruang ${currentRoom}: ${room.name}`, 450, 30);
+            
+            // Draw interaction hints
+            ctx.font = '16px Segoe UI';
+            ctx.textAlign = 'center';
+            
+            const distNPC = Math.sqrt((player.x - room.npc.x)**2 + (player.y - room.npc.y)**2);
+            if (distNPC < 60 && !puzzleAnswered) {
+                ctx.fillStyle = '#ffd700';
+                ctx.fillText('[E] NPC', room.npc.x, room.npc.y - 35);
+            }
+            
+            if (room.key && puzzleAnswered && !roomCleared) {
+                const distKey = Math.sqrt((player.x - room.key.x)**2 + (player.y - room.key.y)**2);
+                if (distKey < 60) {
+                    ctx.fillStyle = '#ffd700';
+                    ctx.fillText('[E] Kunci', room.key.x, room.key.y - 30);
+                }
+            }
+            
+            if (room.heal && room.heal.uses < room.heal.maxUses) {
+                const distHeal = Math.sqrt((player.x - room.heal.x)**2 + (player.y - room.heal.y)**2);
+                if (distHeal < 60) {
+                    ctx.fillStyle = '#00ff00';
+                    ctx.fillText(`[E] Heal (${room.heal.maxUses - room.heal.uses}/${room.heal.maxUses})`, room.heal.x, room.heal.y - 30);
+                }
+            }
+            
+            if (room.door) {
+                const distDoor = Math.sqrt((player.x - room.door.x)**2 + (player.y - room.door.y)**2);
+                if (distDoor < 60) {
+                    ctx.fillStyle = roomCleared ? '#da70d6' : '#ffd700';
+                    ctx.fillText('[E] Pintu', room.door.x, room.door.y - 50);
+                }
+            }
+        }
+        
+        function drawTitleBackground() {
+            // Draw ancient ruins
+            ctx.fillStyle = '#1a1a3a';
+            ctx.fillRect(100, 200, 220, 320);
+            ctx.fillRect(580, 200, 220, 320);
+            
+            ctx.fillStyle = '#2a2a4a';
+            ctx.fillRect(150, 140, 35, 380);
+            ctx.fillRect(330, 140, 35, 380);
+            ctx.fillRect(530, 140, 35, 380);
+            ctx.fillRect(715, 140, 35, 380);
+            
+            // Draw glowing artifact with animation
+            const time = Date.now() / 1000;
+            const glowSize = 25 + Math.sin(time * 2) * 5;
+            
+            ctx.fillStyle = 'rgba(255, 215, 0, 0.3)';
+            ctx.beginPath();
+            ctx.arc(450, 320, glowSize + 15, 0, Math.PI * 2);
+            ctx.fill();
+            
+            ctx.fillStyle = '#ffd700';
+            ctx.beginPath();
+            ctx.arc(450, 320, 25, 0, Math.PI * 2);
+            ctx.fill();
+            
+            ctx.fillStyle = '#ffec8b';
+            ctx.beginPath();
+            ctx.arc(450, 320, 15, 0, Math.PI * 2);
+            ctx.fill();
+        }
+        
+        function checkInteraction() {
+            const room = roomData[currentRoom];
+            
+            const distNPC = Math.sqrt((player.x - room.npc.x)**2 + (player.y - room.npc.y)**2);
+            if (distNPC < 60 && !puzzleAnswered) {
+                showPuzzle();
+                return;
+            }
+            
+            // Check heal item
+            if (room.heal) {
+                const distHeal = Math.sqrt((player.x - room.heal.x)**2 + (player.y - room.heal.y)**2);
+                if (distHeal < 60 && room.heal.uses < room.heal.maxUses) {
+                    room.heal.uses++;
+                    player.hp = Math.min(player.maxHp, player.hp + room.heal.healAmount);
+                    updateHUD();
+                    showNotification(`HP +${room.heal.healAmount}! (${room.heal.uses}/${room.heal.maxUses})`, false);
+                    createParticles(room.heal.x, room.heal.y, '#00ff00', 12);
+                    
+                    if (room.heal.uses >= room.heal.maxUses) {
+                        room.heal.collected = true;
+                    }
+                    return;
+                }
+            }
+            
+            if (room.key) {
+                const distKey = Math.sqrt((player.x - room.key.x)**2 + (player.y - room.key.y)**2);
+                if (distKey < 60 && puzzleAnswered && !roomCleared) {
+                    keysCollected++;
+                    roomCleared = true;
+                    updateHUD();
+                    showNotification("Kunci didapat! Pintu terbuka!");
+                    createParticles(room.key.x, room.key.y, '#ffd700', 15);
+                    
+                    // Room 5: Show congrats screen instead of camera
+                    if (currentRoom === 5) {
+                        setTimeout(() => {
+                            if (gameStarted) {
+                                showCongratsScreen();
+                            }
+                        }, 1500);
+                    }
+                    return;
+                }
+            }
+            
+            if (room.door) {
+                const distDoor = Math.sqrt((player.x - room.door.x)**2 + (player.y - room.door.y)**2);
+                if (distDoor < 60) {
+                    if (roomCleared) {
+                        currentRoom++;
+                        player.x = 50;
+                        player.y = 325;
+                        puzzleAnswered = false;
+                        roomCleared = false;
+                        updateHUD();
+                        showNotification(`Masuk Ruang ${currentRoom}`);
+                    } else {
+                        showNotification("Pintu terkunci! Jawab soal dulu.", true);
+                    }
+                    return;
+                }
+            }
+        }
+        
+        function showPuzzle() {
+            const room = roomData[currentRoom];
+            document.getElementById('puzzleQuestion').textContent = room.question;
+            const optionsDiv = document.getElementById('puzzleOptions');
+            optionsDiv.innerHTML = '';
+            
+            room.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'puzzleOption';
+                btn.textContent = opt;
+                btn.onclick = () => answerPuzzle(idx);
+                optionsDiv.appendChild(btn);
+            });
+            
+            document.getElementById('puzzleUI').classList.add('active');
+        }
+        
+        function answerPuzzle(idx) {
+            const room = roomData[currentRoom];
+            document.getElementById('puzzleUI').classList.remove('active');
+            
+            if (idx === room.correct) {
+                puzzleAnswered = true;
+                showNotification("Jawaban benar! Kunci muncul!");
+                createParticles(room.npc.x, room.npc.y, '#00ff00', 12);
+            } else {
+                showNotification("Jawaban salah! -5 HP", true);
+                player.hp -= 5;
+                updateHUD();
+                createParticles(player.x, player.y, '#ff0000', 8);
+                
+                if (player.hp <= 0) {
+                    player.hp = 0;
+                    gameStarted = false;
+                    clearInterval(timerInterval);
+                    document.getElementById('hudContainer').classList.remove('active');
+                    alert("GAME OVER - HP habis!");
+                    document.getElementById('titleScreen').classList.remove('hidden');
+                }
+            }
+        }
+        
+        function updateHUD() {
+            document.getElementById('hp').textContent = player.hp;
+            document.getElementById('room').textContent = currentRoom;
+            document.getElementById('keys').textContent = keysCollected;
+        }
+        
+        function showNotification(text, isDanger = false) {
+            const notif = document.getElementById('notification');
+            notif.textContent = text;
+            notif.style.background = isDanger ? 'rgba(80, 20, 20, 0.95)' : 'rgba(50, 50, 80, 0.95)';
+            notif.style.color = isDanger ? '#ff4444' : '#ffd700';
+            notif.classList.add('active');
+            setTimeout(() => notif.classList.remove('active'), 2500);
+        }
+        
+        function showGallery() {
+            const grid = document.getElementById('galleryGrid');
+            grid.innerHTML = '';
+            const photos = JSON.parse(localStorage.getItem('gamePhotos') || '[]');
+            
+            if (photos.length === 0) {
+                document.getElementById('galleryMessage').textContent = 'Belum ada foto. Selesaikan game untuk ambil selfie!';
+            } else {
+                document.getElementById('galleryMessage').textContent = `Total ${photos.length} foto pemenang`;
+                photos.forEach(photo => {
+                    const img = document.createElement('img');
+                    img.src = photo.data;
+                    img.className = 'galleryPhoto';
+                    grid.appendChild(img);
+                });
+            }
+            
+            document.getElementById('galleryScreen').classList.add('active');
+        }
+        
+        function hideGallery() {
+            document.getElementById('galleryScreen').classList.remove('active');
+        }
+        
+        function showCongratsScreen() {
+            gameStarted = false;
+            clearInterval(timerInterval);
+            document.getElementById('hudContainer').classList.remove('active');
+            
+            const mins = Math.floor(timeElapsed / 60);
+            const secs = timeElapsed % 60;
+            const timeStr = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+            
+            document.getElementById('congratsStats').innerHTML = `
+                <p>⏱️ Waktu: ${timeStr}</p>
+                <p>❤️ HP Akhir: ${player.hp}/200</p>
+                <p>🔑 Kunci: ${keysCollected}/5</p>
+            `;
+            
+            document.getElementById('congratsScreen').classList.add('active');
+        }
+        
+        function skipCamera() {
+            document.getElementById('congratsScreen').classList.remove('active');
+            document.getElementById('titleScreen').classList.remove('hidden');
+            document.getElementById('hudContainer').classList.remove('active');
+        }
+        
+        function startCamera() {
+            document.getElementById('congratsScreen').classList.remove('active');
+            
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(stream => {
+                    document.getElementById('video').srcObject = stream;
+                    document.getElementById('cameraScreen').classList.add('active');
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert('Tidak bisa akses kamera');
+                    showGallery();
+                });
+        }
+        
+        function capturePhoto() {
+            const video = document.getElementById('video');
+            const canvasPhoto = document.getElementById('canvasPhoto');
+            const contextPhoto = canvasPhoto.getContext('2d');
+            
+            canvasPhoto.width = video.videoWidth;
+            canvasPhoto.height = video.videoHeight;
+            contextPhoto.drawImage(video, 0, 0);
+            
+            const photoData = canvasPhoto.toDataURL('image/jpeg');
+            const photos = JSON.parse(localStorage.getItem('gamePhotos') || '[]');
+            photos.push({
+                data: photoData,
+                date: new Date().toLocaleString('id-ID'),
+                score: keysCollected,
+                time: timeElapsed
+            });
+            localStorage.setItem('gamePhotos', JSON.stringify(photos));
+            
+            const stream = video.srcObject;
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
+            }
+            
+            document.getElementById('cameraScreen').classList.remove('active');
+            showGallery();
+            
+            setTimeout(() => {
+                hideGallery();
+                document.getElementById('titleScreen').classList.remove('hidden');
+            }, 5000);
+        }
+        
+        function gameLoop() {
+            update();
+            draw();
+            requestAnimationFrame(gameLoop);
+        }
+        
+        gameLoop();
+    </script>
 </body>
 </html>
