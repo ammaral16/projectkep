@@ -1,0 +1,8 @@
+# File yang tidak perlu di-commit ke GitHub
+*.pdf
+*.docx
+*.doc
+*.mp4
+*.avi
+*.mov
+*.mkv
